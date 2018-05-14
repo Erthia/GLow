@@ -2,17 +2,16 @@
 #define DATA_STRUCT_H /* on défini la variable mentionnée ci-dessus */
 
 typedef struct{
-	float x,y;
+  float x,y;
 }Coord;
 
 typedef struct{
-	Coord min, max;
-	char type; /* 'P':player - 'e':ennemy - 'o':obstacle */
+  Coord min, max;
+  char type; /* 'P':player - 'e':ennemy - 'o':obstacle */
 }Objects;
 
 typedef struct{
-	Coord min, max;
-	char dir; /* 'N':North - 'S':South - 'E':East - 'W':West */
+  Coord min, max;
+  char dir; /* 'N':North - 'S':South - 'E':East - 'W':West */
 }Projectile
-
 #endif
