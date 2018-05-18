@@ -8,10 +8,11 @@ typedef struct{
 typedef struct{
   Coord min, max;
   char type; /* 'P':player - 'e':ennemy - 'o':obstacle */
-}Objects;
+}Object;
 
 typedef struct{
   Coord min, max;
   char dir; /* 'N':North - 'S':South - 'E':East - 'W':West */
-}Projectile
+}Projectile;
+
 #endif
