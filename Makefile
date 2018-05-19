@@ -1,6 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -O2 -g
 LDFLAGS = -lSDL -lm
+LIB = -lSDL -lGLU -lGL -lm -lSDL_image
 
 APP_BIN = GLow
 
@@ -16,7 +17,7 @@ all: $(APP_BIN)
 
 $(APP_BIN): $(OBJ_FILES)
 	@mkdir -p $(BIN_PATH)
-	$(CC) -o $(BIN_PATH)/$(APP_BIN) $(OBJ_FILES) $(LDFLAGS)
+	$(CC) -o $(BIN_PATH)/$(APP_BIN) $(OBJ_FILES) $(LIB) $(LDFLAGS) 
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir -p "$(@D)"
