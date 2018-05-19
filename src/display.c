@@ -8,6 +8,22 @@
 #include "../include/display.h"
 #define EXT ".jpg"
 
+void initGame(){
+	/* ouverture du fichier ppm */
+	FILE *ppm=fopen("level.ppm","r");
+	if(ppm==NULL){
+		fprintf(stderr, "Ouverture du fichier ppm a échouée");
+		exit(1);
+	}
+	
+	/* Initialisation de la SDL */
+	if(-1 == SDL_Init(SDL_INIT_VIDEO)) {
+		fprintf(stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
+		return EXIT_FAILURE;
+	}
+	initWindow();
+}
+
 void initWindow(){
 	/* Ouverture d'une fenêtre et création d'un contexte OpenGL */
 	if(NULL == SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BIT_PER_PIXEL, SDL_OPENGL | SDL_GL_DOUBLEBUFFER)) {
@@ -20,6 +36,7 @@ void initWindow(){
 
 void displayLoop(){
 	int loop = 1;
+	int windowPosition=0;
 	while(loop) {
 		/* Récupération du temps au début de la boucle */
 		Uint32 startTime = SDL_GetTicks();
@@ -59,6 +76,8 @@ void displayLoop(){
 		if(elapsedTime < FRAMERATE_MILLISECONDS) {
 			SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
 		}
+		
+		windowPosition++;
 	}
 }
 
@@ -111,6 +130,11 @@ void displayAll(World *world){
 	displayProjectiles(world);
 }
 
+/* PPM :
+ * joueur : rouge
+ * obstacles : vert
+ * ennemis : bleu
+ * projectiles : noir */
 void displayLevel(World *world){
 	
 }

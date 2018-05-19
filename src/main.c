@@ -15,17 +15,13 @@ static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
 
 int main(int argc, char** argv) {
 	
-  /* Initialisation de la SDL */
-  if(-1 == SDL_Init(SDL_INIT_VIDEO)) {
-    fprintf(stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
-    return EXIT_FAILURE;
-  }
+	initGame();
+	
   
-  initWindow();
   
-  displayLoop();
+	displayLoop();
   
-  SDL_GL_SwapBuffers();
+	SDL_GL_SwapBuffers(); /* Ca sert à quoi, c'est peut-être pas au bon endroit --> voir TDs */
 
   /* Liberation des ressources associées à la SDL */ 
   SDL_Quit();
