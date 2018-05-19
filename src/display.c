@@ -4,6 +4,12 @@
 
 #define EXT ".jpg"
 
+void displayAll(World *world){
+	displayLevel(world);
+	displayObjects(world);
+	displayProjectiles(world);
+}
+
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau */
 /* libérer l'espace mémoire de GLuint *textureID : void freeTexture(GLuint *textureID) */
 void loadTexture(char type, GLuint *textureID){

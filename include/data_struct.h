@@ -5,15 +5,27 @@ typedef struct{
   float x,y;
 }Coord;
 
-typedef struct{
+typedef struct object{
   Coord min, max;
   char type; /* 'j':player - 'e':ennemy - 'o':obstacle */
   GLuint *textureID;
+  struct object *next;
 }Object;
 
-typedef struct{
+typedef struct projectile{
   Coord min, max;
   char dir; /* 'N':North - 'S':South - 'E':East - 'W':West */
+  struct projectile *next;
 }Projectile;
+
+typedef struct{
+	Projectile *projectiles;
+	Object *objects;
+	GLuint *obstacleTexture;
+	GLuint *ennemyTexture;
+	GLuint *projectileTexture;
+	GLuint *playerTexture;
+	GLuint *backgroundTexture;
+}World;
 
 #endif
