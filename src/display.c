@@ -1,16 +1,68 @@
+#include <stdlib.h>
 #include <stdio.h>
+#include <SDL/SDL.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <SDL/SDL_image.h>
-#include "../include/display.h"
 
+#include "../include/display.h"
 #define EXT ".jpg"
 
-void displayAll(World *world){
-	displayLevel(world);
-	displayObjects(world);
-	displayProjectiles(world);
+void initWindow(){
+	/* Ouverture d'une fenêtre et création d'un contexte OpenGL */
+	if(NULL == SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BIT_PER_PIXEL, SDL_OPENGL | SDL_GL_DOUBLEBUFFER)) {
+		fprintf(stderr, "Impossible d'ouvrir la fenetre. Fin du programme.\n");
+		exit(1);
+	}
+	/* Titre de la fenêtre */
+	SDL_WM_SetCaption("GLow", NULL);
 }
 
-/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau */
+void displayLoop(){
+	int loop = 1;
+	while(loop) {
+		/* Récupération du temps au début de la boucle */
+		Uint32 startTime = SDL_GetTicks();
+    
+		/* Placer ici le code de dessin */
+    
+		/* Echange du front et du back buffer : mise à jour de la fenêtre */
+    
+		/* Boucle traitant les evenements */
+		SDL_Event e;
+		while(SDL_PollEvent(&e)) {
+			/* L'utilisateur ferme la fenêtre : */
+			if(e.type == SDL_QUIT) {
+				loop = 0;
+				break;
+			}
+      
+			/* Quelques exemples de traitement d'evenements : */
+			switch(e.type) {
+				/* Clic souris */
+				case SDL_MOUSEBUTTONUP:
+				printf("clic en (%d, %d)\n", e.button.x, e.button.y);
+				break;
+          
+				/* Touche clavier */
+				case SDL_KEYDOWN:
+				printf("touche pressée (code = %d)\n", e.key.keysym.sym);
+				break;
+          
+				default:
+				break;
+			}
+		}
+		/* Calcul du temps écoulé */
+		Uint32 elapsedTime = SDL_GetTicks() - startTime;
+		/* Si trop peu de temps s'est écoulé, on met en pause le programme */
+		if(elapsedTime < FRAMERATE_MILLISECONDS) {
+			SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
+		}
+	}
+}
+
+/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau | "l":fin du niveau */
 /* libérer l'espace mémoire de GLuint *textureID : void freeTexture(GLuint *textureID) */
 void loadTexture(char type, GLuint *textureID){
 	SDL_Surface* textureData;
@@ -50,4 +102,15 @@ void loadTexture(char type, GLuint *textureID){
 
 void freeTexture(GLuint *textureID){
 	glDeleteTextures(1, textureID);
+}
+
+void displayAll(World *world){
+	glClear(GL_COLOR_BUFFER_BIT);
+	displayLevel(world);
+	displayObjects(world);
+	displayProjectiles(world);
+}
+
+void displayLevel(World *world){
+	
 }

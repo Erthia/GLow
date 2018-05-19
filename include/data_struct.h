@@ -25,7 +25,8 @@ typedef struct{
 	GLuint *ennemyTexture;
 	GLuint *projectileTexture;
 	GLuint *playerTexture;
-	GLuint *backgroundTexture;
+	GLuint *levelTexture;
+	GLuint *endTexture;
 }World;
 
 #endif
