@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include <SDL/SDL_image.h>
+#include "../include/display.h"
 
 #define EXT ".jpg"
 
+/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau */
 /* libérer l'espace mémoire de GLuint *textureID : void freeTexture(GLuint *textureID) */
-void loadObjectTexture(char objectType, GLuint *textureID){
+void loadTexture(char type, GLuint *textureID){
 	SDL_Surface* textureData;
 	char fileName[10];
 	
-	fileName[0]=object.type;
+	fileName[0]=type;
 	strcat(fileName,EXT);
 	
 	/* chargement des données de la texture en RAM */

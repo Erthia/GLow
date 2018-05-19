@@ -7,7 +7,7 @@ typedef struct{
 
 typedef struct{
   Coord min, max;
-  char type; /* 'P':player - 'e':ennemy - 'p':projectile */
+  char type; /* 'j':player - 'e':ennemy - 'o':obstacle */
   GLuint *textureID;
 }Object;
 
