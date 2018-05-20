@@ -6,23 +6,8 @@
 #include <SDL/SDL_image.h>
 
 #include "../include/display.h"
+#include "../include/data_struct.h"
 #define EXT ".jpg"
-
-void initGame(){
-	/* ouverture du fichier ppm */
-	FILE *ppm=fopen("level.ppm","r");
-	if(ppm==NULL){
-		fprintf(stderr, "Ouverture du fichier ppm a échouée");
-		exit(1);
-	}
-	
-	/* Initialisation de la SDL */
-	if(-1 == SDL_Init(SDL_INIT_VIDEO)) {
-		fprintf(stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
-		return EXIT_FAILURE;
-	}
-	initWindow();
-}
 
 void initWindow(){
 	/* Ouverture d'une fenêtre et création d'un contexte OpenGL */
@@ -34,16 +19,16 @@ void initWindow(){
 	SDL_WM_SetCaption("GLow", NULL);
 }
 
-void displayLoop(){
+void displayLoop(World *world){
 	int loop = 1;
-	int windowPosition=0;
 	while(loop) {
 		/* Récupération du temps au début de la boucle */
 		Uint32 startTime = SDL_GetTicks();
     
 		/* Placer ici le code de dessin */
-    
-		/* Echange du front et du back buffer : mise à jour de la fenêtre */
+		/* TEST */
+		drawObjectBlock(world->objects);
+		/* FIN TEST */
     
 		/* Boucle traitant les evenements */
 		SDL_Event e;
@@ -70,6 +55,7 @@ void displayLoop(){
 				break;
 			}
 		}
+		SDL_GL_SwapBuffers();
 		/* Calcul du temps écoulé */
 		Uint32 elapsedTime = SDL_GetTicks() - startTime;
 		/* Si trop peu de temps s'est écoulé, on met en pause le programme */
@@ -77,21 +63,22 @@ void displayLoop(){
 			SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
 		}
 		
-		windowPosition++;
 	}
 }
 
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau | "l":fin du niveau */
 /* libérer l'espace mémoire de GLuint *textureID : void freeTexture(GLuint *textureID) */
-void loadTexture(char type, GLuint *textureID){
+GLuint loadTexture(char type){
 	SDL_Surface* textureData;
 	char fileName[10];
+	GLuint textureID;
 	
 	fileName[0]=type;
 	strcat(fileName,EXT);
 	
 	/* chargement des données de la texture en RAM */
-	if(textureData=IMG_Load(fileName)==NULL){
+	textureData=IMG_Load(fileName);
+	if(textureData==NULL){
 		fprintf(stderr, "Texture loading in memory failed");
 		exit(1);
 	}
@@ -117,12 +104,24 @@ void loadTexture(char type, GLuint *textureID){
 	
 	glBindTexture(GL_TEXTURE_2D, 0); /* on debind la texture */
 	SDL_FreeSurface(textureData); /* libération espace mémoire */
+	
+	return textureID;
+}
+
+void loadAllTextures(World world){
+	world->obstacleTexture=loadTexture('o');
 }
 
 void freeTexture(GLuint *textureID){
 	glDeleteTextures(1, textureID);
 }
 
+/* PAS FINI
+ * PPM :
+ * joueur : rouge
+ * obstacles : vert
+ * ennemis : bleu
+ * projectiles : noir */
 void displayAll(World *world){
 	glClear(GL_COLOR_BUFFER_BIT);
 	displayLevel(world);
@@ -130,11 +129,31 @@ void displayAll(World *world){
 	displayProjectiles(world);
 }
 
-/* PPM :
- * joueur : rouge
- * obstacles : vert
- * ennemis : bleu
- * projectiles : noir */
 void displayLevel(World *world){
 	
+}
+
+void displayObjects(World world){
+
+	/* parcourir la liste chaînée */
+	
+}
+
+/* fini, à tester */
+void drawObjectBlock(Object *obj){
+	glEnable(GL_TEXTURE_2D); /* active la fonctionnalité de texturing */
+	glBindTexture(GL_TEXTURE_2D, obj->textureID); /* on bind la texture pour pouvoir l'utiliser */
+	glBegin(GL_POLYGON);
+		glTexCoord2f(0,1);
+		glVertex2f(-1+2.*obj->min.x/WINDOW_WIDTH, -(-1+2.*obj->min.y/WINDOW_HEIGHT));
+		glTexCoord2f(1,1);
+		glVertex2f(-1+2.*obj->max.x/WINDOW_WIDTH, -(-1+2.*obj->min.y/WINDOW_HEIGHT));
+		glTexCoord2f(1,0);
+		glVertex2f(-1+2.*obj->max.x/WINDOW_WIDTH, -(-1+2.*obj->max.y/WINDOW_HEIGHT));
+		glTexCoord2f(0,0);
+		glVertex2f(-1+2.*obj->min.x/WINDOW_WIDTH, -(-1+2.*obj->max.y/WINDOW_HEIGHT));
+	glEnd();
+	
+	glDisable(GL_TEXTURE_2D); /* désactive la fonctionnalité de texturing */
+	glBindTexture(GL_TEXTURE_2D, 0); /* débind la texture */
 }
