@@ -38,11 +38,26 @@ World *initGame(){
 	world->objects=obj1;
 	
 	Projectile *proj=malloc(sizeof(Projectile));
+	Projectile *proj2=malloc(sizeof(Projectile));
+	Projectile *proj3=malloc(sizeof(Projectile));
 	proj->min.x=300;
 	proj->min.y=50;
 	proj->max.x=400;
 	proj->max.y=150;
 	
+	proj2->min.x=300;
+	proj2->min.y=150;
+	proj2->max.x=400;
+	proj2->max.y=250;
+	
+	proj3->min.x=300;
+	proj3->min.y=250;
+	proj3->max.x=400;
+	proj3->max.y=350;
+	
+	proj->next=proj2;
+	proj2->next=proj3;
+	proj3->next=NULL;
 	world->projectiles=proj;
 	/* FIN TEST */
 	

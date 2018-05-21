@@ -28,10 +28,9 @@ void displayLoop(World *world){
     
 		/* Placer ici le code de dessin */
 		glClear(GL_COLOR_BUFFER_BIT);
-		/* TEST */
+
 		displayObjects(*world);
-		drawProjectile(world->projectiles, *world->projectileTexture);
-		/* FIN TEST */
+		displayProjectiles(*world);
     
 		/* Boucle traitant les evenements */
 		SDL_Event e;
@@ -87,7 +86,7 @@ GLuint *loadTexture(char type){
 	
 	/* chargement des données de la texture en RAM */
 	textureData=IMG_Load(fileName);
-	/* TEST */printf(fileName);
+
 	if(textureData==NULL){
 		fprintf(stderr, "Texture loading in memory failed\n");
 		exit(1);
@@ -150,11 +149,19 @@ void displayLevel(World *world){
 
 /* FINI */
 void displayObjects(World world){
-	/* parcourir la liste chaînée */
 	Object *pObj=world.objects;
 	while(pObj!=NULL){
 		drawObjectBlock(pObj);
 		pObj=pObj->next;
+	}
+}
+
+/* FINI */
+void displayProjectiles(World world){
+	Projectile *pProj=world.projectiles;
+	while(pProj!=NULL){
+		drawProjectile(pProj, *world.projectileTexture);
+		pProj=pProj->next;
 	}
 }
 

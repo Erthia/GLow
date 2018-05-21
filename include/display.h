@@ -22,6 +22,7 @@ void freeTexture(GLuint *textureID);
 void displayAll(World *world);
 void displayLevel(World *world);
 void displayObjects(World world);
+void displayProjectiles(World world);
 void drawObjectBlock(Object *obj);
 void drawProjectile(Projectile *proj, GLuint texture);
 
