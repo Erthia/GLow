@@ -6,5 +6,7 @@
 /*--------------- PROTOTYPES DES FONCTIONS ---------------*/
 World *initGame();
 void exitGame(World *world);
+void gameLoop(World *world);
+int eventLoop();
 
 #endif

@@ -74,6 +74,74 @@ World *initGame(){
 
 }
 
+void gameLoop(World *world){
+	int loop = 1;
+	while(loop) {
+		/* Récupération du temps au début de la boucle */
+		Uint32 startTime = SDL_GetTicks();
+    
+		/* Placer ici le code de dessin */
+		displayAll(world);
+		
+		/* Boucle traitant les evenements */
+		loop=eventLoop();
+		
+		SDL_GL_SwapBuffers();
+		/* Calcul du temps écoulé */
+		Uint32 elapsedTime = SDL_GetTicks() - startTime;
+		/* Si trop peu de temps s'est écoulé, on met en pause le programme */
+		if(elapsedTime < FRAMERATE_MILLISECONDS) {
+			SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
+		}
+		
+	}
+}
+
+/* Boucle traitant les evenements : fermer la fenêtre, commandes vaisseau
+ * Commandes vaisseau : flèche haut -> le vaisseau monte
+ * 						flèche bas  -> le vaisseau descend
+ * 						espace      -> tir
+ * 
+ * retourne 1 : la GameLoop doit se poursuivre
+ * retourne 0 : la GameLoop doit s'arrêter
+ * */
+int eventLoop(){
+	int loop=1;
+	SDL_Event e;
+	while(SDL_PollEvent(&e)) {
+		/* L'utilisateur ferme la fenêtre : */
+		if(e.type == SDL_QUIT) {
+			loop = 0;
+			break;
+		}
+      
+		switch(e.type) {
+			/* Clic souris */
+			case SDL_MOUSEBUTTONUP:
+				printf("clic en (%d, %d)\n", e.button.x, e.button.y);
+			break;
+          
+			/* Touche clavier */
+			case SDL_KEYDOWN:
+				printf("touche pressée (code = %d)\n", e.key.keysym.sym);
+				if(e.key.keysym.sym==32){ /* barre espace */
+				
+				}
+				else if(e.key.keysym.sym==273){ /* flèche du haut */
+					
+				}
+				else if(e.key.keysym.sym==274){ /* flèche du bas */
+					
+				}
+			break;
+          
+			default:
+			break;
+			}
+		}
+		return loop;
+}
+
 void exitGame(World *world){
 	SDL_Quit(); /* Liberation des ressources associées à la SDL */
 }

@@ -13,7 +13,6 @@ static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
 
 /*--------------- PROTOTYPES DES FONCTIONS ---------------*/
 void initWindow();
-void displayLoop(World *world);
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau | "l":fin du niveau */
 GLuint *loadTexture(char type);
 void loadAllTextures(World *world);

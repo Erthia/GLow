@@ -6,11 +6,12 @@
 
 #include "../include/data_struct.h"
 #include "../include/display.h"
+#include "../include/game.h"
 
 int main(int argc, char** argv) {
 	
 	World *world=initGame();
-	displayLoop(world);
+	gameLoop(world);
 	exitGame(world);
   
 	return EXIT_SUCCESS;

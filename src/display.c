@@ -21,50 +21,6 @@ void initWindow(){
 	SDL_WM_SetCaption("GLow", NULL);
 }
 
-void displayLoop(World *world){
-	int loop = 1;
-	while(loop) {
-		/* Récupération du temps au début de la boucle */
-		Uint32 startTime = SDL_GetTicks();
-    
-		/* Placer ici le code de dessin */
-		displayAll(world);
-    
-		/* Boucle traitant les evenements */
-		SDL_Event e;
-		while(SDL_PollEvent(&e)) {
-			/* L'utilisateur ferme la fenêtre : */
-			if(e.type == SDL_QUIT) {
-				loop = 0;
-				break;
-			}
-      
-			/* Quelques exemples de traitement d'evenements : */
-			switch(e.type) {
-				/* Clic souris */
-				case SDL_MOUSEBUTTONUP:
-				printf("clic en (%d, %d)\n", e.button.x, e.button.y);
-				break;
-          
-				/* Touche clavier */
-				case SDL_KEYDOWN:
-				printf("touche pressée (code = %d)\n", e.key.keysym.sym);
-				break;
-          
-				default:
-				break;
-			}
-		}
-		SDL_GL_SwapBuffers();
-		/* Calcul du temps écoulé */
-		Uint32 elapsedTime = SDL_GetTicks() - startTime;
-		/* Si trop peu de temps s'est écoulé, on met en pause le programme */
-		if(elapsedTime < FRAMERATE_MILLISECONDS) {
-			SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
-		}
-		
-	}
-}
 
 /* FINI */
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau | "l":fin du niveau */
