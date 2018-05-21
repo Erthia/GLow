@@ -7,7 +7,7 @@ typedef struct{
 
 typedef struct object{
   Coord min, max;
-  char type; /* 'j':player - 'e':ennemy - 'o':obstacle */
+  char type; /* 'j':player - 'e':ennemy - 'o':obstacle - 'l':end line of the level */
   GLuint *textureID; /* les textures seront chargées lors du lancement du jeu, et stockées dans la structure world. Plutôt que de tester à chaque affichage quelle texture doit être utilisée,
 						on le fera une bonne fois pour toute à la création de l'objet, et on stockera le pointeur vers la texture ici */
   struct object *next;

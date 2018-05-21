@@ -20,13 +20,22 @@ World *initGame(){
 	
 	/* TEST */
 	World *world=malloc(sizeof(World));
-	Object *obj=malloc(sizeof(Object));
-	obj->min.x=50;
-	obj->min.y=50;
-	obj->max.x=150;
-	obj->max.y=150;
+	Object *obj1=malloc(sizeof(Object));
+	Object *obj2=malloc(sizeof(Object));
+	obj1->min.x=50;
+	obj1->min.y=50;
+	obj1->max.x=150;
+	obj1->max.y=150;
 	
-	world->objects=obj;
+	obj2->min.x=150;
+	obj2->min.y=50;
+	obj2->max.x=250;
+	obj2->max.y=150;
+	
+	obj1->next=obj2;
+	obj2->next=NULL;
+	
+	world->objects=obj1;
 	
 	Projectile *proj=malloc(sizeof(Projectile));
 	proj->min.x=300;
@@ -40,7 +49,8 @@ World *initGame(){
 	loadAllTextures(world);
 	
 	/* TEST */
-	obj->textureID=world->obstacleTexture;
+	obj1->textureID=world->obstacleTexture;
+	obj2->textureID=world->ennemyTexture;
 	/* FIN TEST */
 
 	glClearColor(0.5, 0.5, 0.5 ,1.0); /* couleur du fond (sert pour les tests) */

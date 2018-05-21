@@ -29,7 +29,7 @@ void displayLoop(World *world){
 		/* Placer ici le code de dessin */
 		glClear(GL_COLOR_BUFFER_BIT);
 		/* TEST */
-		drawObjectBlock(world->objects);
+		displayObjects(*world);
 		drawProjectile(world->projectiles, *world->projectileTexture);
 		/* FIN TEST */
     
@@ -148,10 +148,14 @@ void displayLevel(World *world){
 	
 }
 
+/* FINI */
 void displayObjects(World world){
-
 	/* parcourir la liste chaînée */
-	
+	Object *pObj=world.objects;
+	while(pObj!=NULL){
+		drawObjectBlock(pObj);
+		pObj=pObj->next;
+	}
 }
 
 /* FINI */
