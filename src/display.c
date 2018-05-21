@@ -28,7 +28,10 @@ void displayLoop(World *world){
     
 		/* Placer ici le code de dessin */
 		glClear(GL_COLOR_BUFFER_BIT);
-		/* TEST */drawObjectBlock(world->objects);
+		/* TEST */
+		drawObjectBlock(world->objects);
+		drawProjectile(world->projectiles, *world->projectileTexture);
+		/* FIN TEST */
     
 		/* Boucle traitant les evenements */
 		SDL_Event e;
@@ -164,6 +167,24 @@ void drawObjectBlock(Object *obj){
 		glVertex2f(-1+2.*obj->max.x/WINDOW_WIDTH, -(-1+2.*obj->max.y/WINDOW_HEIGHT));
 		glTexCoord2f(0,1);
 		glVertex2f(-1+2.*obj->min.x/WINDOW_WIDTH, -(-1+2.*obj->max.y/WINDOW_HEIGHT));
+	glEnd();
+	glDisable(GL_TEXTURE_2D); /* désactive la fonctionnalité de texturing */
+	glBindTexture(GL_TEXTURE_2D, 0); /* débind la texture */
+}
+
+/* FINI */
+void drawProjectile(Projectile *proj, GLuint texture){
+	glEnable(GL_TEXTURE_2D); /* active la fonctionnalité de texturing */
+	glBindTexture(GL_TEXTURE_2D, texture); /* on bind la texture pour pouvoir l'utiliser */
+	glBegin(GL_POLYGON);
+		glTexCoord2f(0,0);
+		glVertex2f(-1+2.*proj->min.x/WINDOW_WIDTH, -(-1+2.*proj->min.y/WINDOW_HEIGHT));
+		glTexCoord2f(1,0);
+		glVertex2f(-1+2.*proj->max.x/WINDOW_WIDTH, -(-1+2.*proj->min.y/WINDOW_HEIGHT));
+		glTexCoord2f(1,1);
+		glVertex2f(-1+2.*proj->max.x/WINDOW_WIDTH, -(-1+2.*proj->max.y/WINDOW_HEIGHT));
+		glTexCoord2f(0,1);
+		glVertex2f(-1+2.*proj->min.x/WINDOW_WIDTH, -(-1+2.*proj->max.y/WINDOW_HEIGHT));
 	glEnd();
 	glDisable(GL_TEXTURE_2D); /* désactive la fonctionnalité de texturing */
 	glBindTexture(GL_TEXTURE_2D, 0); /* débind la texture */

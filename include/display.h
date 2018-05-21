@@ -23,5 +23,6 @@ void displayAll(World *world);
 void displayLevel(World *world);
 void displayObjects(World world);
 void drawObjectBlock(Object *obj);
+void drawProjectile(Projectile *proj, GLuint texture);
 
 #endif

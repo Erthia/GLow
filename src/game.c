@@ -27,19 +27,21 @@ World *initGame(){
 	obj->max.y=150;
 	
 	world->objects=obj;
+	
+	Projectile *proj=malloc(sizeof(Projectile));
+	proj->min.x=300;
+	proj->min.y=50;
+	proj->max.x=400;
+	proj->max.y=150;
+	
+	world->projectiles=proj;
 	/* FIN TEST */
 	
 	loadAllTextures(world);
 	
-	/* TEST */ obj->textureID=world->obstacleTexture;
-	
-	/* ouverture du fichier ppm
-	FILE *ppm=fopen("level.ppm","r");
-	if(ppm==NULL){
-		fprintf(stderr, "Ouverture du fichier ppm a échouée");
-		exit(1);
-	}
-	* */
+	/* TEST */
+	obj->textureID=world->obstacleTexture;
+	/* FIN TEST */
 
 	glClearColor(0.5, 0.5, 0.5 ,1.0); /* couleur du fond (sert pour les tests) */
 	
