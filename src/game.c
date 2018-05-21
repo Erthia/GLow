@@ -11,32 +11,39 @@
 
 World *initGame(){
 	/* TEST */
-	World *world;
-	Object *obj=malloc(Object);
-	obj->coord.x=0;
-	obj->coord.y=3;
+	World *world=malloc(sizeof(World));
+	Object *obj=malloc(sizeof(Object));
+	obj->min.x=0;
+	obj->min.y=0;
+	obj->max.x=50;
+	obj->max.y=50;
 	
-	world->objects=obj
+	world->objects=obj;
 	
 	loadAllTextures(world);
+	obj->textureID=world->obstacleTexture;
 	/* FIN TEST */
 	
-	/* ouverture du fichier ppm */
+	/* ouverture du fichier ppm
 	FILE *ppm=fopen("level.ppm","r");
 	if(ppm==NULL){
 		fprintf(stderr, "Ouverture du fichier ppm a échouée");
 		exit(1);
 	}
+	* */
 	
 	/* Initialisation de la SDL */
 	if(-1 == SDL_Init(SDL_INIT_VIDEO)) {
 		fprintf(stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
-		return EXIT_FAILURE;
+		exit(1);
 	}
 
 	initWindow();
 	
-	return *world;
+	glClearColor(0.5, 0.5, 0.5 ,1.0); /* couleur du fond (sert pour les tests) */
+	glColor3ub(100, 0, 10); /* couleur des bounding box des éléments (sert pour les tests) */
+	
+	return world;
 
 }
 
@@ -45,5 +52,6 @@ void exitGame(World *world){
 	/* TEST */
 	freeTexture(world->obstacleTexture);
 	free(world->objects);
+	free(world);
 	/* FIN TEST */
 }

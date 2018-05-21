@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL_image.h>
+#include <string.h>
 
 #include "../include/display.h"
 #include "../include/data_struct.h"
@@ -26,6 +27,7 @@ void displayLoop(World *world){
 		Uint32 startTime = SDL_GetTicks();
     
 		/* Placer ici le code de dessin */
+		glClear(GL_COLOR_BUFFER_BIT);
 		/* TEST */
 		drawObjectBlock(world->objects);
 		/* FIN TEST */
@@ -68,29 +70,30 @@ void displayLoop(World *world){
 
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau | "l":fin du niveau */
 /* libérer l'espace mémoire de GLuint *textureID : void freeTexture(GLuint *textureID) */
-GLuint loadTexture(char type){
+GLuint *loadTexture(char type){
 	SDL_Surface* textureData;
-	char fileName[10];
-	GLuint textureID;
-	
-	fileName[0]=type;
-	strcat(fileName,EXT);
+	char fileName[]="elements/o.jpg";
+	GLuint *textureID=malloc(sizeof(GLuint));
+	if(textureID==NULL){
+		fprintf(stderr, "Malloc of textureID in fonction loadTexture failed\n");
+		exit(1);
+	}
 	
 	/* chargement des données de la texture en RAM */
 	textureData=IMG_Load(fileName);
 	if(textureData==NULL){
-		fprintf(stderr, "Texture loading in memory failed");
+		fprintf(stderr, "Texture loading in memory failed\n");
 		exit(1);
 	}
 	
 	glGenTextures(1, textureID); /* Initialisation de la texture */
 	
 	/* Utilisation d'un point de bind pour modifier les paramètres de la texture */
-	glBindTexture(GL_TEXTURE_2D, textureID);
+	glBindTexture(GL_TEXTURE_2D, *textureID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* filtre de minification */
 	
 	/* Envoi des données à la carte graphique */
-	gltexImage2D(
+	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
 		GL_RGB,
@@ -108,7 +111,7 @@ GLuint loadTexture(char type){
 	return textureID;
 }
 
-void loadAllTextures(World world){
+void loadAllTextures(World *world){
 	world->obstacleTexture=loadTexture('o');
 }
 
@@ -121,13 +124,13 @@ void freeTexture(GLuint *textureID){
  * joueur : rouge
  * obstacles : vert
  * ennemis : bleu
- * projectiles : noir */
+ * projectiles : noir 
 void displayAll(World *world){
 	glClear(GL_COLOR_BUFFER_BIT);
 	displayLevel(world);
-	displayObjects(world);
+	displayObjects(*world);
 	displayProjectiles(world);
-}
+}*/
 
 void displayLevel(World *world){
 	
@@ -142,15 +145,15 @@ void displayObjects(World world){
 /* fini, à tester */
 void drawObjectBlock(Object *obj){
 	glEnable(GL_TEXTURE_2D); /* active la fonctionnalité de texturing */
-	glBindTexture(GL_TEXTURE_2D, obj->textureID); /* on bind la texture pour pouvoir l'utiliser */
+	glBindTexture(GL_TEXTURE_2D, *obj->textureID); /* on bind la texture pour pouvoir l'utiliser */
 	glBegin(GL_POLYGON);
-		glTexCoord2f(0,1);
-		glVertex2f(-1+2.*obj->min.x/WINDOW_WIDTH, -(-1+2.*obj->min.y/WINDOW_HEIGHT));
-		glTexCoord2f(1,1);
-		glVertex2f(-1+2.*obj->max.x/WINDOW_WIDTH, -(-1+2.*obj->min.y/WINDOW_HEIGHT));
-		glTexCoord2f(1,0);
-		glVertex2f(-1+2.*obj->max.x/WINDOW_WIDTH, -(-1+2.*obj->max.y/WINDOW_HEIGHT));
 		glTexCoord2f(0,0);
+		glVertex2f(-1+2.*obj->min.x/WINDOW_WIDTH, -(-1+2.*obj->min.y/WINDOW_HEIGHT));
+		glTexCoord2f(1,0);
+		glVertex2f(-1+2.*obj->max.x/WINDOW_WIDTH, -(-1+2.*obj->min.y/WINDOW_HEIGHT));
+		glTexCoord2f(1,1);
+		glVertex2f(-1+2.*obj->max.x/WINDOW_WIDTH, -(-1+2.*obj->max.y/WINDOW_HEIGHT));
+		glTexCoord2f(0,1);
 		glVertex2f(-1+2.*obj->min.x/WINDOW_WIDTH, -(-1+2.*obj->max.y/WINDOW_HEIGHT));
 	glEnd();
 	

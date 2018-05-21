@@ -16,8 +16,8 @@ void initWindow();
 void displayLoop(World *world);
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau */
 /* libérer l'espace mémoire de GLuint *textureID : void freeTexture(GLuint *textureID) */
-GLuint loadTexture(char type);
-void loadAllTextures(World world);
+GLuint *loadTexture(char type);
+void loadAllTextures(World *world);
 void freeTexture(GLuint *textureID);
 void displayAll(World *world);
 void displayLevel(World *world);

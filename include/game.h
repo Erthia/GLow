@@ -4,7 +4,7 @@
 #include "../include/data_struct.h"
 
 /*--------------- PROTOTYPES DES FONCTIONS ---------------*/
-World initGame();
+World *initGame();
 void exitGame(World *world);
 
 #endif
