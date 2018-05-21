@@ -85,7 +85,6 @@ GLuint *loadTexture(char type){
 		fprintf(stderr, "Texture loading in memory failed\n");
 		exit(1);
 	}
-	
 	glGenTextures(1, textureID); /* Initialisation de la texture */
 	
 	/* Utilisation d'un point de bind pour modifier les paramètres de la texture */
@@ -142,7 +141,7 @@ void displayObjects(World world){
 	
 }
 
-/* fini, à tester */
+/* FINI */
 void drawObjectBlock(Object *obj){
 	glEnable(GL_TEXTURE_2D); /* active la fonctionnalité de texturing */
 	glBindTexture(GL_TEXTURE_2D, *obj->textureID); /* on bind la texture pour pouvoir l'utiliser */
@@ -156,7 +155,6 @@ void drawObjectBlock(Object *obj){
 		glTexCoord2f(0,1);
 		glVertex2f(-1+2.*obj->min.x/WINDOW_WIDTH, -(-1+2.*obj->max.y/WINDOW_HEIGHT));
 	glEnd();
-	
 	glDisable(GL_TEXTURE_2D); /* désactive la fonctionnalité de texturing */
 	glBindTexture(GL_TEXTURE_2D, 0); /* débind la texture */
 }

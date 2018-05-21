@@ -10,18 +10,25 @@
 #include "../include/display.h"
 
 World *initGame(){
+	/* Initialisation de la SDL */
+	if(-1 == SDL_Init(SDL_INIT_VIDEO)) {
+		fprintf(stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
+		exit(1);
+	}
+	initWindow();
+	
 	/* TEST */
 	World *world=malloc(sizeof(World));
 	Object *obj=malloc(sizeof(Object));
-	obj->min.x=0;
-	obj->min.y=0;
-	obj->max.x=50;
-	obj->max.y=50;
+	obj->min.x=50;
+	obj->min.y=50;
+	obj->max.x=150;
+	obj->max.y=150;
+	
+	obj->textureID=loadTexture('o');
 	
 	world->objects=obj;
 	
-	loadAllTextures(world);
-	obj->textureID=world->obstacleTexture;
 	/* FIN TEST */
 	
 	/* ouverture du fichier ppm
@@ -31,17 +38,9 @@ World *initGame(){
 		exit(1);
 	}
 	* */
-	
-	/* Initialisation de la SDL */
-	if(-1 == SDL_Init(SDL_INIT_VIDEO)) {
-		fprintf(stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
-		exit(1);
-	}
 
-	initWindow();
 	
 	glClearColor(0.5, 0.5, 0.5 ,1.0); /* couleur du fond (sert pour les tests) */
-	glColor3ub(100, 0, 10); /* couleur des bounding box des éléments (sert pour les tests) */
 	
 	return world;
 
