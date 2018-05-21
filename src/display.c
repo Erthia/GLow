@@ -28,9 +28,7 @@ void displayLoop(World *world){
     
 		/* Placer ici le code de dessin */
 		glClear(GL_COLOR_BUFFER_BIT);
-		/* TEST */
-		drawObjectBlock(world->objects);
-		/* FIN TEST */
+		/* TEST */drawObjectBlock(world->objects);
     
 		/* Boucle traitant les evenements */
 		SDL_Event e;
@@ -68,11 +66,16 @@ void displayLoop(World *world){
 	}
 }
 
-/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau | "l":fin du niveau */
-/* libérer l'espace mémoire de GLuint *textureID : void freeTexture(GLuint *textureID) */
+/* FINI */
+/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau | "l":fin du niveau */
+/* libérer l'espace mémoire de GLuint * : void freeTexture(GLuint *textureID) */
 GLuint *loadTexture(char type){
 	SDL_Surface* textureData;
-	char fileName[]="elements/o.jpg";
+	char fileName[50]="elements/";
+	strcat(fileName, &type);
+	strcat(fileName, EXT);
+	
+	
 	GLuint *textureID=malloc(sizeof(GLuint));
 	if(textureID==NULL){
 		fprintf(stderr, "Malloc of textureID in fonction loadTexture failed\n");
@@ -81,6 +84,7 @@ GLuint *loadTexture(char type){
 	
 	/* chargement des données de la texture en RAM */
 	textureData=IMG_Load(fileName);
+	/* TEST */printf(fileName);
 	if(textureData==NULL){
 		fprintf(stderr, "Texture loading in memory failed\n");
 		exit(1);
@@ -110,8 +114,14 @@ GLuint *loadTexture(char type){
 	return textureID;
 }
 
+/* FINI */
 void loadAllTextures(World *world){
 	world->obstacleTexture=loadTexture('o');
+	world->ennemyTexture=loadTexture('e');
+	world->projectileTexture=loadTexture('p');
+	world->playerTexture=loadTexture('j');
+	world->levelTexture=loadTexture('b');
+	world->endTexture=loadTexture('l');
 }
 
 void freeTexture(GLuint *textureID){

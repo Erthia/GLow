@@ -15,6 +15,7 @@ World *initGame(){
 		fprintf(stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
 		exit(1);
 	}
+	
 	initWindow();
 	
 	/* TEST */
@@ -25,11 +26,12 @@ World *initGame(){
 	obj->max.x=150;
 	obj->max.y=150;
 	
-	obj->textureID=loadTexture('o');
-	
 	world->objects=obj;
-	
 	/* FIN TEST */
+	
+	loadAllTextures(world);
+	
+	/* TEST */ obj->textureID=world->obstacleTexture;
 	
 	/* ouverture du fichier ppm
 	FILE *ppm=fopen("level.ppm","r");
@@ -39,7 +41,6 @@ World *initGame(){
 	}
 	* */
 
-	
 	glClearColor(0.5, 0.5, 0.5 ,1.0); /* couleur du fond (sert pour les tests) */
 	
 	return world;
