@@ -10,6 +10,7 @@
 #include "../include/data_struct.h"
 #define EXT ".jpg"
 
+
 void initWindow(){
 	/* Ouverture d'une fenêtre et création d'un contexte OpenGL */
 	if(NULL == SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BIT_PER_PIXEL, SDL_OPENGL | SDL_GL_DOUBLEBUFFER)) {
@@ -27,10 +28,7 @@ void displayLoop(World *world){
 		Uint32 startTime = SDL_GetTicks();
     
 		/* Placer ici le code de dessin */
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		displayObjects(*world);
-		displayProjectiles(*world);
+		displayAll(world);
     
 		/* Boucle traitant les evenements */
 		SDL_Event e;
@@ -70,7 +68,6 @@ void displayLoop(World *world){
 
 /* FINI */
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau | "l":fin du niveau */
-/* libérer l'espace mémoire de GLuint * : void freeTexture(GLuint *textureID) */
 GLuint *loadTexture(char type){
 	SDL_Surface* textureData;
 	char fileName[50]="elements/";
@@ -126,25 +123,31 @@ void loadAllTextures(World *world){
 	world->endTexture=loadTexture('l');
 }
 
-void freeTexture(GLuint *textureID){
-	glDeleteTextures(1, textureID);
-}
-
-/* PAS FINI
- * PPM :
- * joueur : rouge
- * obstacles : vert
- * ennemis : bleu
- * projectiles : noir 
+/* FINI */
 void displayAll(World *world){
 	glClear(GL_COLOR_BUFFER_BIT);
-	displayLevel(world);
-	displayObjects(*world);
-	displayProjectiles(world);
-}*/
 
-void displayLevel(World *world){
-	
+	displayBackground(*world);
+	displayObjects(*world);
+	displayProjectiles(*world);
+}
+
+/* FINI */
+void displayBackground(World world){
+	glEnable(GL_TEXTURE_2D); /* active la fonctionnalité de texturing */
+	glBindTexture(GL_TEXTURE_2D, *world.levelTexture); /* on bind la texture pour pouvoir l'utiliser */
+	glBegin(GL_POLYGON);
+		glTexCoord2f(0,0);
+		glVertex2f(-1, 1);
+		glTexCoord2f(1,0);
+		glVertex2f(1, 1);
+		glTexCoord2f(1,1);
+		glVertex2f(1, -1);
+		glTexCoord2f(0,1);
+		glVertex2f(-1, -1);
+	glEnd();
+	glDisable(GL_TEXTURE_2D); /* désactive la fonctionnalité de texturing */
+	glBindTexture(GL_TEXTURE_2D, 0); /* débind la texture */
 }
 
 /* FINI */

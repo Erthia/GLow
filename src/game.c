@@ -76,9 +76,4 @@ World *initGame(){
 
 void exitGame(World *world){
 	SDL_Quit(); /* Liberation des ressources associées à la SDL */
-	/* TEST */
-	freeTexture(world->obstacleTexture);
-	free(world->objects);
-	free(world);
-	/* FIN TEST */
 }

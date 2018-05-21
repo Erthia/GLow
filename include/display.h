@@ -14,13 +14,12 @@ static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
 /*--------------- PROTOTYPES DES FONCTIONS ---------------*/
 void initWindow();
 void displayLoop(World *world);
-/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "f":fond du niveau */
-/* libérer l'espace mémoire de GLuint *textureID : void freeTexture(GLuint *textureID) */
+/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau | "l":fin du niveau */
 GLuint *loadTexture(char type);
 void loadAllTextures(World *world);
 void freeTexture(GLuint *textureID);
 void displayAll(World *world);
-void displayLevel(World *world);
+void displayBackground(World world);
 void displayObjects(World world);
 void displayProjectiles(World world);
 void drawObjectBlock(Object *obj);
