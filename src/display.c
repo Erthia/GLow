@@ -9,7 +9,7 @@
 #include "../include/display.h"
 #include "../include/data_struct.h"
 #define EXT ".jpg"
-#define SPEED 5 /* pixels per image */
+#define SPEED 1 /* pixels per image INT */
 
 
 void initWindow(){
@@ -81,17 +81,18 @@ void loadAllTextures(World *world){
 	world->endTexture=loadTexture('l');
 }
 
-/* a tester */
+/* FINI */
 void displayAll(World *world){
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	glMatrixMode(GL_MODELVIEW); /* select the current matrix */
 	glLoadIdentity(); /* the current matrix becomes the identity matrix */
 	
+	displayBackground(*world);
+	
 	glTranslatef(-(-1+2.*world->position/WINDOW_WIDTH), 0, 0);
 	world->position+=SPEED;
 
-	displayBackground(*world);
 	displayObjects(world->end);
 	displayObjects(world->player);
 	displayObjects(world->ennemies);
