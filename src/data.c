@@ -41,10 +41,11 @@ Object *addObject(Object *o, Object *liste)
 
 void deleteObjects(Object *liste)
 {
-  Object *next = liste->next;
-  free(liste);
-  if(next != NULL)
-    deleteObjects(next);
+	if(liste != NULL){
+		Object *next = liste->next;
+		free(liste);
+		deleteObjects(next);
+	}
 }
 
 Projectile *initProjectile(Coord min, Coord max, char dir)
@@ -71,10 +72,11 @@ Projectile *addProjectile(Projectile *p, Projectile *liste)
 
 void deleteProjectiles(Projectile *liste)
 {
-  Projectile *next = liste->next;
-  free(liste);
-  if(next != NULL)
-    deleteProjectiles(next);
+	if(liste!=NULL){
+		Projectile *next = liste->next;
+		free(liste);
+		deleteProjectiles(next);
+	}
 }
 
 World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *projectileTexture, GLuint *playerTexture, GLuint *levelTexture, GLuint *endTexture)

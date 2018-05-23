@@ -9,6 +9,7 @@
 #include "../include/data_struct.h"
 #include "../include/display.h"
 #include "../include/actions.h"
+#include "../include/data.h"
 
 World *initGame(){
 	/* Initialisation de la SDL */
@@ -64,11 +65,12 @@ void gameLoop(World *world){
 		/* Actions */
 		moveForwardPlayer(world->player);
 		
+		/* Boucle traitant les evenements */
+		loop=eventLoop(world);
+		
 		/* Placer ici le code de dessin */
 		displayAll(world);
 		
-		/* Boucle traitant les evenements */
-		loop=eventLoop(world);
 		
 		SDL_GL_SwapBuffers();
 		/* Calcul du temps écoulé */
@@ -111,10 +113,12 @@ int eventLoop(World *world){
 
 				}
 				else if(e.key.keysym.sym==273){ /* flèche du haut */
-					moveObject(world->player, 'N');
+					if(world->player->min.y-PIXEL_SIZE>=0)
+						moveObject(world->player, 'N');
 				}
 				else if(e.key.keysym.sym==274){ /* flèche du bas */
-					moveObject(world->player, 'S');
+					if(world->player->max.y+PIXEL_SIZE<=WINDOW_HEIGHT)
+						moveObject(world->player, 'S');
 				}
 			break;
           
