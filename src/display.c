@@ -9,7 +9,7 @@
 #include "../include/display.h"
 #include "../include/data_struct.h"
 #define EXT ".jpg"
-#define SPEED 300 /* pixels per image */
+#define SPEED 5 /* pixels per image */
 
 
 void initWindow(){
@@ -88,7 +88,8 @@ void displayAll(World *world){
 	glMatrixMode(GL_MODELVIEW); /* select the current matrix */
 	glLoadIdentity(); /* the current matrix becomes the identity matrix */
 	
-	glTranslatef(-(-1+2.*SPEED/WINDOW_WIDTH), 0, 0);
+	glTranslatef(-(-1+2.*world->position/WINDOW_WIDTH), 0, 0);
+	world->position+=SPEED;
 
 	displayBackground(*world);
 	displayObjects(world->end);

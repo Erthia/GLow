@@ -20,6 +20,7 @@ typedef struct projectile{
 }Projectile;
 
 typedef struct{
+	int position;
 	Projectile *projectiles;
 	Object *player;
 	Object *ennemies;

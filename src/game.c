@@ -41,6 +41,7 @@ World *initGame(){
 	world->ennemies=NULL;
 	world->obstacles=obj1;
 	world->projectiles=NULL;
+	world->position=WINDOW_WIDTH/2;
 	/* FIN TEST */
 	
 	loadAllTextures(world);
