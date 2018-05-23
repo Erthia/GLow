@@ -9,6 +9,7 @@
 #include "../include/display.h"
 #include "../include/data_struct.h"
 #define EXT ".jpg"
+#define SPEED 300 /* pixels per image */
 
 
 void initWindow(){
@@ -19,6 +20,7 @@ void initWindow(){
 	}
 	/* Titre de la fenêtre */
 	SDL_WM_SetCaption("GLow", NULL);
+
 }
 
 
@@ -79,9 +81,14 @@ void loadAllTextures(World *world){
 	world->endTexture=loadTexture('l');
 }
 
-/* FINI */
+/* a tester */
 void displayAll(World *world){
 	glClear(GL_COLOR_BUFFER_BIT);
+	
+	glMatrixMode(GL_MODELVIEW); /* select the current matrix */
+	glLoadIdentity(); /* the current matrix becomes the identity matrix */
+	
+	glTranslatef(-(-1+2.*SPEED/WINDOW_WIDTH), 0, 0);
 
 	displayBackground(*world);
 	displayObjects(world->end);
@@ -89,6 +96,8 @@ void displayAll(World *world){
 	displayObjects(world->ennemies);
 	displayProjectiles(*world);
 	displayObjects(world->obstacles);
+		
+	
 }
 
 /* FINI */
@@ -161,3 +170,10 @@ void drawProjectile(Projectile *proj, GLuint texture){
 	glDisable(GL_TEXTURE_2D); /* désactive la fonctionnalité de texturing */
 	glBindTexture(GL_TEXTURE_2D, 0); /* débind la texture */
 }
+
+/* inutilisée */
+void initCamera(){
+	glMatrixMode(GL_MODELVIEW);
+	int centreX=-1+2.*0.5, centreY=-(-1+2.*0.5);
+	gluLookAt(centreX, centreY, 0.1, centreX, centreY, 0, 0, 1, 0);
+};
