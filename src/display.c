@@ -84,11 +84,11 @@ void displayAll(World *world){
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	displayBackground(*world);
+	displayObjects(world->end);
 	displayObjects(world->player);
 	displayObjects(world->ennemies);
-	displayObjects(world->obstacles);
-	displayObjects(world->end);
 	displayProjectiles(*world);
+	displayObjects(world->obstacles);
 }
 
 /* FINI */

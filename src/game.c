@@ -8,6 +8,7 @@
 #include "../include/game.h"
 #include "../include/data_struct.h"
 #include "../include/display.h"
+#include "../include/actions.h"
 
 World *initGame(){
 	/* Initialisation de la SDL */
@@ -32,13 +33,13 @@ World *initGame(){
 	obj2->max.x=250;
 	obj2->max.y=150;
 	
-	obj1->next=obj2;
+	obj1->next=NULL;
 	obj2->next=NULL;
 	
-	world->end=obj1;
-	world->player=NULL;
+	world->end=NULL;
+	world->player=obj2;
 	world->ennemies=NULL;
-	world->obstacles=NULL;
+	world->obstacles=obj1;
 	
 	Projectile *proj=malloc(sizeof(Projectile));
 	Projectile *proj2=malloc(sizeof(Projectile));
@@ -128,10 +129,10 @@ int eventLoop(World *world){
 
 				}
 				else if(e.key.keysym.sym==273){ /* flèche du haut */
-					
+					moveObject(world->player, 'N');
 				}
 				else if(e.key.keysym.sym==274){ /* flèche du bas */
-					
+					moveObject(world->player, 'S');
 				}
 			break;
           
