@@ -58,3 +58,22 @@ Projectile *addProjectile(Projectile *p, Projectile *liste)
     p->next = liste;
   return p;
 }
+
+World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *projectileTexture, GLuint *playerTexture, GLuint *levelTexture, GLuint *endTexture)
+{
+  World *w = malloc(sizeof(World));
+
+  w->projectiles = NULL;
+  w->player = NULL;
+  w->ennemies = NULL;
+  w->obstacles = NULL;
+  w->end = NULL;
+  w->obstacleTexture = obstacleTexture;
+  w->ennemyTexture = ennemyTexture;
+  w->projectileTexture = projectileTexture;
+  w->playerTexture = playerTexture;
+  w->levelTexture = levelTexture;
+  w->endTexture = endTexture;
+
+  return w;
+}
