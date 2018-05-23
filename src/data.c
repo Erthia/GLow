@@ -38,6 +38,14 @@ Object *addObject(Object *o, Object *liste)
     }
 }
 
+void deleteObjects(Object *liste)
+{
+  Object *next = liste->next;
+  free(liste);
+  if(next != NULL)
+    deleteObjects(next);
+}
+
 Projectile *initProjectile(Coord min, Coord max, char dir)
 {
   Projectile *p = malloc(sizeof(Projectile));
@@ -60,6 +68,14 @@ Projectile *addProjectile(Projectile *p, Projectile *liste)
   return p;
 }
 
+void deleteProjectiles(Projectile *liste)
+{
+  Projectile *next = liste->next;
+  free(liste);
+  if(next != NULL)
+    deleteProjectiles(next);
+}
+
 World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *projectileTexture, GLuint *playerTexture, GLuint *levelTexture, GLuint *endTexture)
 {
   World *w = malloc(sizeof(World));
@@ -78,4 +94,14 @@ World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *project
   w->endTexture = endTexture;
 
   return w;
+}
+
+void deleteWorld(World *w)
+{
+  deleteProjectiles(w->projectiles);
+  deleteObjects(w->player);
+  deleteObjects(w->ennemies);
+  deleteObjects(w->obstacles);
+  deleteObjects(w->end);
+  free(w);
 }
