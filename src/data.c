@@ -5,6 +5,7 @@
 #include <GL/glu.h>
 
 #include "../include/data_struct.h"
+#include "../include/display.h"
 
 Object *initObject(Coord min, Coord max, char type, GLuint *textureID)
 {
@@ -37,6 +38,14 @@ Object *addObject(Object *o, Object *liste)
     }
 }
 
+void deleteObjects(Object *liste)
+{
+  Object *next = liste->next;
+  free(liste);
+  if(next != NULL)
+    deleteObjects(next);
+}
+
 Projectile *initProjectile(Coord min, Coord max, char dir)
 {
   Projectile *p = malloc(sizeof(Projectile));
@@ -57,4 +66,42 @@ Projectile *addProjectile(Projectile *p, Projectile *liste)
   if (liste != NULL)
     p->next = liste;
   return p;
+}
+
+void deleteProjectiles(Projectile *liste)
+{
+  Projectile *next = liste->next;
+  free(liste);
+  if(next != NULL)
+    deleteProjectiles(next);
+}
+
+World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *projectileTexture, GLuint *playerTexture, GLuint *levelTexture, GLuint *endTexture)
+{
+  World *w = malloc(sizeof(World));
+  
+  w->position = WINDOW_WIDTH/2;
+  w->projectiles = NULL;
+  w->player = NULL;
+  w->ennemies = NULL;
+  w->obstacles = NULL;
+  w->end = NULL;
+  w->obstacleTexture = obstacleTexture;
+  w->ennemyTexture = ennemyTexture;
+  w->projectileTexture = projectileTexture;
+  w->playerTexture = playerTexture;
+  w->levelTexture = levelTexture;
+  w->endTexture = endTexture;
+
+  return w;
+}
+
+void deleteWorld(World *w)
+{
+  deleteProjectiles(w->projectiles);
+  deleteObjects(w->player);
+  deleteObjects(w->ennemies);
+  deleteObjects(w->obstacles);
+  deleteObjects(w->end);
+  free(w);
 }
