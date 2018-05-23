@@ -5,6 +5,7 @@
 #include <GL/glu.h>
 
 #include "../include/data_struct.h"
+#include "../include/display.h"
 
 Object *initObject(Coord min, Coord max, char type, GLuint *textureID)
 {
@@ -62,7 +63,8 @@ Projectile *addProjectile(Projectile *p, Projectile *liste)
 World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *projectileTexture, GLuint *playerTexture, GLuint *levelTexture, GLuint *endTexture)
 {
   World *w = malloc(sizeof(World));
-
+  
+  w->position = WINDOW_WIDTH/2;
   w->projectiles = NULL;
   w->player = NULL;
   w->ennemies = NULL;
