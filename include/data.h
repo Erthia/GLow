@@ -7,7 +7,7 @@ void deleteObjects(Object *liste);
 Projectile *initProjectile(Coord min, Coord max, char dir);
 Projectile *addProjectile(Projectile *p, Projectile *liste);
 void deleteProjectiles(Projectile *liste);
-World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *projectileTexture, GLuint *playerTexture, GLuint *levelTexture, GLuint *endTexture);
+World *initWorld();
 void deleteWorld(World *w);
 
 #endif

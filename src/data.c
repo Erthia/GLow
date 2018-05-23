@@ -79,7 +79,7 @@ void deleteProjectiles(Projectile *liste)
 	}
 }
 
-World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *projectileTexture, GLuint *playerTexture, GLuint *levelTexture, GLuint *endTexture)
+World *initWorld();
 {
   World *w = malloc(sizeof(World));
   
@@ -89,12 +89,7 @@ World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *project
   w->ennemies = NULL;
   w->obstacles = NULL;
   w->end = NULL;
-  w->obstacleTexture = obstacleTexture;
-  w->ennemyTexture = ennemyTexture;
-  w->projectileTexture = projectileTexture;
-  w->playerTexture = playerTexture;
-  w->levelTexture = levelTexture;
-  w->endTexture = endTexture;
+  loadAllTextures(w);
 
   return w;
 }
@@ -114,4 +109,14 @@ void deleteWorld(World *w)
   glDeleteTextures(1, w->endTexture);
 
   free(w);
+}
+
+void setPlayer(World *world){
+	Coord playerMin;
+	playerMin.x=WINDOW_WIDTH/8;
+	playerMin.y=WINDOW_HEIGHT/2-PIXEL_SIZE/2;
+	playerMax.x=playerMin.x+PIXEL_SIZE;
+	playerMax.y=playerMax.y+PIXEL_SIZE;
+	Object *player=initObject(playerMin, playerMax, 'j', world->playerTexture);
+	world->player=addObject(player, world->player);
 }

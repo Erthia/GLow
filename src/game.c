@@ -19,41 +19,14 @@ World *initGame(){
 	}
 	
 	initWindow();
+	World *world=initWorld();
+	setPlayer(World *world);
 	
 	/* TEST */
-	World *world=malloc(sizeof(World));
-	Object *obj1=malloc(sizeof(Object));
-	Object *obj2=malloc(sizeof(Object));
-	obj1->min.x=50;
-	obj1->min.y=50;
-	obj1->max.x=150;
-	obj1->max.y=150;
 	
-	obj2->min.x=150;
-	obj2->min.y=50;
-	obj2->max.x=250;
-	obj2->max.y=150;
-	
-	obj1->next=NULL;
-	obj2->next=NULL;
-	
-	world->end=NULL;
-	world->player=obj2;
-	world->ennemies=NULL;
-	world->obstacles=obj1;
-	world->projectiles=NULL;
-	world->position=WINDOW_WIDTH/2;
-	/* FIN TEST */
-	
-	loadAllTextures(world);
-	
-	/* TEST */
-	obj1->textureID=world->obstacleTexture;
-	obj2->textureID=world->ennemyTexture;
-	/* FIN TEST */
+	/* END TEST */
 	
 	return world;
-
 }
 
 void gameLoop(World *world){
@@ -62,8 +35,11 @@ void gameLoop(World *world){
 		/* Récupération du temps au début de la boucle */
 		Uint32 startTime = SDL_GetTicks();
 		
-		/* Actions */
+		/* ACTIONS */
 		moveForwardPlayer(world->player);
+		
+		/* CONDITIONS */
+		isEnd();
 		
 		/* Boucle traitant les evenements */
 		loop=eventLoop(world);

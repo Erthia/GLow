@@ -96,3 +96,12 @@ void moveForwardPlayer(Object *player){
 	player->min.x+=SPEED;
 	player->max.x+=SPEED;
 }
+
+/* return 1 if this is the end
+ * return 0 if isn't */
+int isEnd(World world){
+	if(world.end==NULL) return 0;
+	if(colide(world.player->min, world.player->max, world.end->min, world.end->max)==0)
+		return isEnd(world.end->next);
+	return 1;
+}

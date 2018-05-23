@@ -4,7 +4,7 @@
 /* ---------------- GLOBAL VARIABLES ----------------*/
 #define EXT ".jpg"
 #define SPEED 1 /* pixels per image INT */
-#define PIXEL_SIZE 100
+#define PIXEL_SIZE 50
 /* Dimensions de la fenêtre */
 static unsigned int WINDOW_WIDTH = 800;
 static unsigned int WINDOW_HEIGHT = 600;
