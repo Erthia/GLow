@@ -84,7 +84,10 @@ void displayAll(World *world){
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	displayBackground(*world);
-	displayObjects(*world);
+	displayObjects(world->player);
+	displayObjects(world->ennemies);
+	displayObjects(world->obstacles);
+	displayObjects(world->end);
 	displayProjectiles(*world);
 }
 
@@ -107,11 +110,10 @@ void displayBackground(World world){
 }
 
 /* FINI */
-void displayObjects(World world){
-	Object *pObj=world.objects;
-	while(pObj!=NULL){
-		drawObjectBlock(pObj);
-		pObj=pObj->next;
+void displayObjects(Object *obj){
+	while(obj!=NULL){
+		drawObjectBlock(obj);
+		obj=obj->next;
 	}
 }
 

@@ -21,7 +21,10 @@ typedef struct projectile{
 
 typedef struct{
 	Projectile *projectiles;
-	Object *objects;
+	Object *player;
+	Object *ennemies;
+	Object *obstacles;
+	Object *end;
 	GLuint *obstacleTexture;
 	GLuint *ennemyTexture;
 	GLuint *projectileTexture;

@@ -19,7 +19,7 @@ void loadAllTextures(World *world);
 void freeTexture(GLuint *textureID);
 void displayAll(World *world);
 void displayBackground(World world);
-void displayObjects(World world);
+void displayObjects(Object *obj);
 void displayProjectiles(World world);
 void drawObjectBlock(Object *obj);
 void drawProjectile(Projectile *proj, GLuint texture);

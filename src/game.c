@@ -35,7 +35,10 @@ World *initGame(){
 	obj1->next=obj2;
 	obj2->next=NULL;
 	
-	world->objects=obj1;
+	world->end=obj1;
+	world->player=NULL;
+	world->ennemies=NULL;
+	world->obstacles=NULL;
 	
 	Projectile *proj=malloc(sizeof(Projectile));
 	Projectile *proj2=malloc(sizeof(Projectile));
@@ -67,8 +70,6 @@ World *initGame(){
 	obj1->textureID=world->obstacleTexture;
 	obj2->textureID=world->ennemyTexture;
 	/* FIN TEST */
-
-	glClearColor(0.5, 0.5, 0.5 ,1.0); /* couleur du fond (sert pour les tests) */
 	
 	return world;
 
@@ -84,7 +85,7 @@ void gameLoop(World *world){
 		displayAll(world);
 		
 		/* Boucle traitant les evenements */
-		loop=eventLoop();
+		loop=eventLoop(world);
 		
 		SDL_GL_SwapBuffers();
 		/* Calcul du temps écoulé */
@@ -93,7 +94,6 @@ void gameLoop(World *world){
 		if(elapsedTime < FRAMERATE_MILLISECONDS) {
 			SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
 		}
-		
 	}
 }
 
@@ -105,7 +105,7 @@ void gameLoop(World *world){
  * retourne 1 : la GameLoop doit se poursuivre
  * retourne 0 : la GameLoop doit s'arrêter
  * */
-int eventLoop(){
+int eventLoop(World *world){
 	int loop=1;
 	SDL_Event e;
 	while(SDL_PollEvent(&e)) {
@@ -125,7 +125,7 @@ int eventLoop(){
 			case SDL_KEYDOWN:
 				printf("touche pressée (code = %d)\n", e.key.keysym.sym);
 				if(e.key.keysym.sym==32){ /* barre espace */
-				
+
 				}
 				else if(e.key.keysym.sym==273){ /* flèche du haut */
 					
