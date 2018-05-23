@@ -60,7 +60,10 @@ void gameLoop(World *world){
 	while(loop) {
 		/* Récupération du temps au début de la boucle */
 		Uint32 startTime = SDL_GetTicks();
-    
+		
+		/* Actions */
+		moveForwardPlayer(world->player);
+		
 		/* Placer ici le code de dessin */
 		displayAll(world);
 		
@@ -82,8 +85,8 @@ void gameLoop(World *world){
  * 						flèche bas  -> le vaisseau descend
  * 						espace      -> tir
  * 
- * retourne 1 : la GameLoop doit se poursuivre
- * retourne 0 : la GameLoop doit s'arrêter
+ * retourne 1 : la gameLoop doit se poursuivre
+ * retourne 0 : la gameLoop doit s'arrêter
  * */
 int eventLoop(World *world){
 	int loop=1;
@@ -123,5 +126,6 @@ int eventLoop(World *world){
 }
 
 void exitGame(World *world){
+	deleteWorld(world);
 	SDL_Quit(); /* Liberation des ressources associées à la SDL */
 }

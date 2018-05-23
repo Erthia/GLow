@@ -6,6 +6,7 @@
 
 #include "../include/data_struct.h"
 #include "../include/display.h"
+#include "../include/data.h"
 
 Object *initObject(Coord min, Coord max, char type, GLuint *textureID)
 {
@@ -103,5 +104,12 @@ void deleteWorld(World *w)
   deleteObjects(w->ennemies);
   deleteObjects(w->obstacles);
   deleteObjects(w->end);
+  glDeleteTextures(1, w->obstacleTexture);
+  glDeleteTextures(1, w->ennemyTexture);
+  glDeleteTextures(1, w->projectileTexture);
+  glDeleteTextures(1, w->playerTexture);
+  glDeleteTextures(1, w->levelTexture);
+  glDeleteTextures(1, w->endTexture);
+
   free(w);
 }

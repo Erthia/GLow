@@ -13,5 +13,12 @@ int moveObject(Object *obj, char dir);
  * Return EXIT_FAILURE if proj is NULL, or dir invalid
  * Do not manage the possible exit of the level map */
 int moveProjectile(Projectile *proj, char dir);
+int colide(Coord minObj1, Coord maxObj1, Coord minObj2, Coord maxObj2);
+/*
+  Fonction de test des collisions
+  retourne 1 si les objets entrent en collisions
+  retourne 0 sinon
+*/
+void moveForwardPlayer(Object *player);
 
 #endif

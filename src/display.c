@@ -8,8 +8,6 @@
 
 #include "../include/display.h"
 #include "../include/data_struct.h"
-#define EXT ".jpg"
-#define SPEED 1 /* pixels per image INT */
 
 
 void initWindow(){
