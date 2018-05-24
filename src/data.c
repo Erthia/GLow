@@ -91,6 +91,7 @@ World *initWorld()
   w->ennemies = NULL;
   w->obstacles = NULL;
   w->end = NULL;
+  w->ppm = NULL;
   loadAllTextures(w);
 
   return w;
@@ -118,11 +119,13 @@ void deleteWorld(World *w)
 }
 
 void setPlayer(World *world){
+	int pixelSize=(int)WINDOW_HEIGHT/(world->ppm->height);
+	
 	Coord playerMin, playerMax;
 	playerMin.x=WINDOW_WIDTH/8;
-	playerMin.y=WINDOW_HEIGHT/2-PIXEL_SIZE/2;
-	playerMax.x=playerMin.x+PIXEL_SIZE;
-	playerMax.y=playerMin.y+PIXEL_SIZE;
+	playerMin.y=WINDOW_HEIGHT/2-pixelSize/2;
+	playerMax.x=playerMin.x+pixelSize;
+	playerMax.y=playerMin.y+pixelSize;
 	Object *player=initObject(playerMin, playerMax, 'j', world->playerTexture);
 	world->player=addObject(player, world->player);
 }
@@ -138,6 +141,7 @@ Picture *initPicture(int width, int height)
   return p;
 }
 
+/* retourne NULL si l'ouverture de fichier échoue */
 Picture *openPicture(char *fileName)
 {
   int width, height, maxColorValue;
@@ -147,12 +151,17 @@ Picture *openPicture(char *fileName)
   
   if (fichier == NULL)
     return NULL;
-  fscanf(fichier, "%s %d %d %d", magicNumber, &width, &height, &maxColorValue);
+  fscanf(fichier, "%s", magicNumber);
+  fscanf(fichier, "%d", &width);
+  fscanf(fichier, "%d", &height);
+  fscanf(fichier, "%d", &maxColorValue);
 
   Picture *p = initPicture(width, height);
   for (int i = 0; i<((p->width)*(p->height)); i++)
     {
-      fscanf(fichier, "%d %d %d", &r, &g, &b);
+      fscanf(fichier, "%d", &r);
+      fscanf(fichier, "%d", &g);
+      fscanf(fichier, "%d", &b);
       p->pixels[i].r = r;
       p->pixels[i].g = g;
       p->pixels[i].b = b;

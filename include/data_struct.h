@@ -31,23 +31,6 @@ typedef struct projectile{
   struct projectile *next;
 }Projectile;
 
-typedef struct{
-	int position;
-	Projectile *projectiles;
-	Object *player;
-	Object *ennemies;
-	Object *obstacles;
-	Object *end;
-	GLuint *obstacleTexture;
-	GLuint *ennemyTexture;
-	GLuint *projectileTexture;
-	GLuint *playerTexture;
-	GLuint *levelTexture;
-	GLuint *endLineTexture;
-	GLuint *happyEndTexture;
-	GLuint *deathEndTexture;
-}World;
-
 typedef struct Pixel
 {
 	int r, g, b;
@@ -58,4 +41,22 @@ typedef struct picture
 	int width, height;
 	Pixel* pixels;
 } Picture;
+
+typedef struct{
+	int position;
+	Projectile *projectiles;
+	Object *player;
+	Object *ennemies;
+	Object *obstacles;
+	Object *end;
+	Picture *ppm;
+	GLuint *obstacleTexture;
+	GLuint *ennemyTexture;
+	GLuint *projectileTexture;
+	GLuint *playerTexture;
+	GLuint *levelTexture;
+	GLuint *endLineTexture;
+	GLuint *happyEndTexture;
+	GLuint *deathEndTexture;
+}World;
 #endif

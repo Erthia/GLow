@@ -11,24 +11,24 @@
 /* dir : 'N':North - 'S':South - 'E':East - 'W':West
  * Return EXIT_FAILURE if obj is NULL, or dir invalid
  * Do not manage the possible exit of the level map */
-int moveObject(Object *obj, char dir){
+int moveObject(Object *obj, char dir, int pixel_size){
 	if(obj==NULL) return EXIT_FAILURE;
 	switch(dir){
 		case 'N':
-			obj->min.y-=PIXEL_SIZE;
-			obj->max.y-=PIXEL_SIZE;
+			obj->min.y-=pixel_size;
+			obj->max.y-=pixel_size;
 		break;
 		case 'S':
-			obj->min.y+=PIXEL_SIZE;
-			obj->max.y+=PIXEL_SIZE;
+			obj->min.y+=pixel_size;
+			obj->max.y+=pixel_size;
 		break;
 		case 'E':
-			obj->min.x+=PIXEL_SIZE;
-			obj->max.x+=PIXEL_SIZE;
+			obj->min.x+=pixel_size;
+			obj->max.x+=pixel_size;
 		break;
 		case 'W':
-			obj->min.x-=PIXEL_SIZE;
-			obj->max.x-=PIXEL_SIZE;
+			obj->min.x-=pixel_size;
+			obj->max.x-=pixel_size;
 		break;
 		
 		default:
@@ -41,24 +41,24 @@ int moveObject(Object *obj, char dir){
 /* dir : 'N':North - 'S':South - 'E':East - 'W':West
  * Return EXIT_FAILURE if proj is NULL, or dir invalid
  * Do not manage the possible exit of the level map */
-int moveProjectile(Projectile *proj, char dir){
+int moveProjectile(Projectile *proj, char dir, int pixel_size){
 	if(proj==NULL) return EXIT_FAILURE;
 	switch(dir){
 		case 'N':
-			proj->min.y+=PIXEL_SIZE;
-			proj->max.y+=PIXEL_SIZE;
+			proj->min.y+=pixel_size;
+			proj->max.y+=pixel_size;
 		break;
 		case 'S':
-			proj->min.y-=PIXEL_SIZE;
-			proj->max.y-=PIXEL_SIZE;
+			proj->min.y-=pixel_size;
+			proj->max.y-=pixel_size;
 		break;
 		case 'E':
-			proj->min.x+=PIXEL_SIZE;
-			proj->max.x+=PIXEL_SIZE;
+			proj->min.x+=pixel_size;
+			proj->max.x+=pixel_size;
 		break;
 		case 'W':
-			proj->min.x-=PIXEL_SIZE;
-			proj->max.x-=PIXEL_SIZE;
+			proj->min.x-=pixel_size;
+			proj->max.x-=pixel_size;
 		break;
 		
 		default:

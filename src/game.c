@@ -20,22 +20,9 @@ World *initGame(){
 	
 	initWindow();
 	World *world=initWorld();
+	ppmToWorld("elements/level1.ppm", world);
+	printf("%d\n",world->ppm->height);
 	setPlayer(world);
-	
-	/* TEST */
-	Coord endTestMin, endTestMax;
-	endTestMin.x=WINDOW_WIDTH; endTestMin.y=WINDOW_HEIGHT/2;
-	endTestMax.x=WINDOW_WIDTH+PIXEL_SIZE; endTestMax.y=WINDOW_HEIGHT/2+PIXEL_SIZE;
-	Object *endBlock1=initObject(endTestMin, endTestMax, 'o', world->endLineTexture);
-	world->end=addObject(endBlock1, world->end);
-	
-	
-	
-	endTestMin.y+=PIXEL_SIZE;
-	endTestMax.y+=PIXEL_SIZE;
-	Object *endBlock2=initObject(endTestMin, endTestMax, 'o', world->endLineTexture);
-	world->end=addObject(endBlock2, world->end);
-	/* END TEST */
 	
 	return world;
 }
@@ -101,12 +88,12 @@ int eventLoop(World *world){
 
 				}
 				else if(e.key.keysym.sym==273){ /* flèche du haut */
-					if(world->player->min.y-PIXEL_SIZE>=0)
-						moveObject(world->player, 'N');
+					if(world->player->min.y-WINDOW_HEIGHT/world->ppm->height>=0)
+						moveObject(world->player, 'N', WINDOW_HEIGHT/world->ppm->height);
 				}
 				else if(e.key.keysym.sym==274){ /* flèche du bas */
-					if(world->player->max.y+PIXEL_SIZE<=WINDOW_HEIGHT)
-						moveObject(world->player, 'S');
+					if(world->player->max.y+WINDOW_HEIGHT/world->ppm->height<=WINDOW_HEIGHT)
+						moveObject(world->player, 'S', WINDOW_HEIGHT/world->ppm->height);
 				}
 			break;
           
@@ -138,7 +125,7 @@ void happyEnd(World *world){
 	}
 }
 
-void ppmToWorld(World *world, Picture *p)
+void pictureToWorld(World *world, Picture *p)
 {
   int xtab;
   int ytab;
@@ -185,4 +172,14 @@ void ppmToWorld(World *world, Picture *p)
                                        world->obstacles);
         }
     }
+}
+
+void ppmToWorld(char *filename, World *world){
+	Picture *ppm=openPicture(filename);
+	if(ppm==NULL){
+		fprintf(stderr,"Opening of the ppm file failed");
+		exit(1);
+	}
+	pictureToWorld(world, ppm);
+	world->ppm=ppm;
 }

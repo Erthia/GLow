@@ -8,11 +8,11 @@
 /* dir : 'N':North - 'S':South - 'E':East - 'W':West
  * Return EXIT_FAILURE if obj is NULL, or dir invalid
  * Do not manage the possible exit of the level map */
-int moveObject(Object *obj, char dir);
+int moveObject(Object *obj, char dir, int pixel_size);
 /* dir : 'N':North - 'S':South - 'E':East - 'W':West
  * Return EXIT_FAILURE if proj is NULL, or dir invalid
  * Do not manage the possible exit of the level map */
-int moveProjectile(Projectile *proj, char dir);
+int moveProjectile(Projectile *proj, char dir, int pixel_size);
 int colide(Coord minObj1, Coord maxObj1, Coord minObj2, Coord maxObj2);
 /*
   Fonction de test des collisions
