@@ -2,8 +2,9 @@
 #define DATA_STRUCT_H /* on défini la variable mentionnée ci-dessus */
 
 /* ---------------- GLOBAL VARIABLES ----------------*/
-#define EXT ".jpg"
+#define EXT ".png"
 #define SPEED 3 /* pixels per image INT */
+
 /* Dimensions de la fenêtre */
 static unsigned int WINDOW_WIDTH = 1280;
 static unsigned int WINDOW_HEIGHT = 720;
