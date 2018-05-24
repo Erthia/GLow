@@ -12,54 +12,24 @@
 /* dir : 'N':North - 'S':South - 'E':East - 'W':West
  * Return EXIT_FAILURE if obj is NULL, or dir invalid
  * Do not manage the possible exit of the level map */
-int moveObject(Object *obj, char dir, int pixel_size){
+int moveObject(Object *obj, char dir, int speed){
 	if(obj==NULL) return EXIT_FAILURE;
 	switch(dir){
 		case 'N':
-			obj->min.y-=pixel_size;
-			obj->max.y-=pixel_size;
+			obj->min.y-=speed;
+			obj->max.y-=speed;
 		break;
 		case 'S':
-			obj->min.y+=pixel_size;
-			obj->max.y+=pixel_size;
+			obj->min.y+=speed;
+			obj->max.y+=speed;
 		break;
 		case 'E':
-			obj->min.x+=pixel_size;
-			obj->max.x+=pixel_size;
+			obj->min.x+=speed;
+			obj->max.x+=speed;
 		break;
 		case 'W':
-			obj->min.x-=pixel_size;
-			obj->max.x-=pixel_size;
-		break;
-		
-		default:
-			return EXIT_FAILURE;
-		break;
-	}
-	return EXIT_SUCCESS;
-}
-
-/* dir : 'N':North - 'S':South - 'E':East - 'W':West
- * Return EXIT_FAILURE if proj is NULL, or dir invalid
- * Do not manage the possible exit of the level map */
-int moveProjectile(Projectile *proj, char dir, int pixel_size){
-	if(proj==NULL) return EXIT_FAILURE;
-	switch(dir){
-		case 'N':
-			proj->min.y+=pixel_size;
-			proj->max.y+=pixel_size;
-		break;
-		case 'S':
-			proj->min.y-=pixel_size;
-			proj->max.y-=pixel_size;
-		break;
-		case 'E':
-			proj->min.x+=pixel_size;
-			proj->max.x+=pixel_size;
-		break;
-		case 'W':
-			proj->min.x-=pixel_size;
-			proj->max.x-=pixel_size;
+			obj->min.x-=speed;
+			obj->max.x-=speed;
 		break;
 		
 		default:
@@ -91,9 +61,17 @@ int colide(Coord minObj1, Coord maxObj1, Coord minObj2, Coord maxObj2)
   return 0;
 }
 
-void moveForwardPlayer(Object *player){
-	player->min.x+=SPEED;
-	player->max.x+=SPEED;
+void moveForwardProjectiles(World *world, Projectile *list){
+	if(list==NULL) return;
+	if(list->dir=='E'){
+		list->min.x+=PROJ_SPEED;
+		list->max.x+=PROJ_SPEED;
+	}
+	else if(list->dir=='W'){
+		list->min.x-=PROJ_SPEED;
+		list->max.x-=PROJ_SPEED;
+	}
+	return moveForwardProjectiles(world, list->next);
 }
 
 /* retourne 1 si un des éléments de la liste entre en collision avec le.a joueur.se
@@ -137,4 +115,15 @@ void setPlayer(World *world){
 	playerMax.y=playerMin.y+pixelSize;
 	Object *player=initObject(playerMin, playerMax, 'j', world->playerTexture);
 	world->player=addObject(player, world->player);
+}
+
+void fire(World *world, Object *obj, char dir){
+	int pixelSize=WINDOW_HEIGHT/world->ppm->height;
+	Coord coordProjMin, coordProjMax;
+	coordProjMin.x=obj->min.x+pixelSize;
+	coordProjMin.y=obj->min.y;
+	coordProjMax.x=coordProjMin.x+pixelSize;
+	coordProjMax.y=coordProjMin.y+pixelSize;
+	Projectile *proj=initProjectile(coordProjMin, coordProjMax, dir);
+	world->projectiles=addProjectile(proj, world->projectiles);
 }

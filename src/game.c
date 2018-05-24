@@ -39,17 +39,18 @@ void gameLoop(World *world){
 		Uint32 startTime = SDL_GetTicks();
 		
 		/* ACTIONS */
-		moveForwardPlayer(world->player);
+		moveObject(world->player, 'E', SPEED); /* fait avancer le joueur */
+		moveForwardProjectiles(world, world->projectiles); /* fait avancer tous les projectiles du jeu */
 		
 		/* Boucle traitant les evenements */
 		loop=eventLoop(world);
 		
 		/* CONDITIONS + DESSINS */
-		if(colideList(world->player, world->end)==1){
+		if(colideList(world->player, world->end)==1){ /* le joueur a atteint la fin du niveau */
 			displayEnd(world, 1);
 			loop=0;
 		}
-		else if(isDeathEnd(world)==1){
+		else if(isDeathEnd(world)==1){ /* le joueur est mort */
 			displayEnd(world, 0);
 			loop=0;
 		}
@@ -77,6 +78,7 @@ void gameLoop(World *world){
  * */
 int eventLoop(World *world){
 	int loop=1;
+	int pixelSize=WINDOW_HEIGHT/world->ppm->height;
 	SDL_Event e;
 	while(SDL_PollEvent(&e)) {
 		/* L'utilisateur ferme la fenêtre : */
@@ -93,16 +95,15 @@ int eventLoop(World *world){
 			/* Touche clavier */
 			case SDL_KEYDOWN:
 				printf("touche pressée (code = %d)\n", e.key.keysym.sym);
-				if(e.key.keysym.sym==32){ /* barre espace */
-
-				}
+				if(e.key.keysym.sym==32) /* barre espace */
+					fire(world, world->player, 'E');
 				else if(e.key.keysym.sym==273){ /* flèche du haut */
 					if(world->player->min.y-WINDOW_HEIGHT/world->ppm->height>=0)
 						moveObject(world->player, 'N', WINDOW_HEIGHT/world->ppm->height);
 				}
 				else if(e.key.keysym.sym==274){ /* flèche du bas */
-					if(world->player->max.y+WINDOW_HEIGHT/world->ppm->height<=WINDOW_HEIGHT)
-						moveObject(world->player, 'S', WINDOW_HEIGHT/world->ppm->height);
+					if(world->player->max.y+pixelSize<=WINDOW_HEIGHT)
+						moveObject(world->player, 'S', pixelSize);
 				}
 			break;
           

@@ -60,6 +60,7 @@ Projectile *initProjectile(Coord min, Coord max, char dir)
   p->max.x = max.x;
   p->max.y = max.y;
   p->dir = dir;
+  p->next=NULL;
 
   return p;
 }
@@ -105,6 +106,7 @@ void deleteWorld(World *w)
   deleteObjects(w->ennemies);
   deleteObjects(w->obstacles);
   deleteObjects(w->end);
+  ppmFree(w->ppm);
   glDeleteTextures(1, w->obstacleTexture);
   glDeleteTextures(1, w->ennemyTexture);
   glDeleteTextures(1, w->projectileTexture);
