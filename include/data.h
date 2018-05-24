@@ -1,7 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 
-#include "../include/data_struct"
+#include "../include/data_struct.h"
 
 Object *initObject(Coord min, Coord max, char type, GLuint *textureID);
 Object *addObject(Object *o, Object *liste);
