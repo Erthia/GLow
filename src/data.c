@@ -136,7 +136,7 @@ Picture *initPicture(int width, int height)
 
   p->height = height;
   p->width = width;
-  p->pixels = malloc(width*height*sizeof(Pixel*));
+  p->pixels = malloc(width*height*sizeof(Pixel));
 
   return p;
 }
