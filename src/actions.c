@@ -41,7 +41,7 @@ int moveObject(Object *obj, char dir, int speed){
 
 /*
   Fonction de test des collisions 
-  retourne 1 si les objets entrent en collisions
+  retourne 1 si les objets entrent en collision
   retourne 0 sinon
 */
 int colide(Coord minObj1, Coord maxObj1, Coord minObj2, Coord maxObj2)
@@ -126,4 +126,25 @@ void fire(World *world, Object *obj, char dir){
 	coordProjMax.y=coordProjMin.y+pixelSize;
 	Projectile *proj=initProjectile(coordProjMin, coordProjMax, dir);
 	world->projectiles=addProjectile(proj, world->projectiles);
+}
+
+/* supprime les projectiles rencontrant un obstacle */
+void projKilledByWall(World *world, Projectile **projList){
+	if(*projList==NULL) return;
+	projKilledByAWall(projList, world->obstacles);
+	if(*projList==NULL) return;
+	return projKilledByWall(world, &((*projList)->next));
+}
+
+/* proj supposé non NULL */
+void projKilledByAWall(Projectile **proj, Object *obsList){
+	if(obsList==NULL) return;
+	if(colide((*proj)->min, (*proj)->max, obsList->min, obsList->max)==1){
+		Projectile *temp;
+		temp=(*proj)->next;
+		free(*proj);
+		(*proj)=temp;
+		return;
+	}
+	return projKilledByAWall(proj, obsList->next);	
 }

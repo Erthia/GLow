@@ -46,6 +46,8 @@ void gameLoop(World *world){
 		loop=eventLoop(world);
 		
 		/* CONDITIONS + DESSINS */
+		projKilledByWall(world, &(world->projectiles)); /* supprime les projectiles rencontrant un obstacle */
+		/* ennemiesKilledByproj supprime les ennemis rencontrant un projectile */
 		if(colideList(world->player, world->end)==1){ /* le joueur a atteint la fin du niveau */
 			displayEnd(world, 1);
 			loop=0;
