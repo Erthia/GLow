@@ -48,4 +48,14 @@ typedef struct{
 	GLuint *deathEndTexture;
 }World;
 
+typedef struct Pixel
+{
+	int r, g, b;
+} Pixel;
+
+typedef struct picture
+{
+	int width, height;
+	Pixel* pixels;
+} Picture;
 #endif
