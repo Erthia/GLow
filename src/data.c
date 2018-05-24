@@ -39,6 +39,7 @@ Object *addObject(Object *o, Object *liste)
     }
 }
 
+/* FINI */
 void deleteObjects(Object *liste)
 {
 	if(liste != NULL){
@@ -70,6 +71,7 @@ Projectile *addProjectile(Projectile *p, Projectile *liste)
   return p;
 }
 
+/* FINI */
 void deleteProjectiles(Projectile *liste)
 {
 	if(liste!=NULL){
@@ -79,7 +81,7 @@ void deleteProjectiles(Projectile *liste)
 	}
 }
 
-World *initWorld();
+World *initWorld()
 {
   World *w = malloc(sizeof(World));
   
@@ -94,6 +96,7 @@ World *initWorld();
   return w;
 }
 
+/* FINI */
 void deleteWorld(World *w)
 {
   deleteProjectiles(w->projectiles);
@@ -106,17 +109,20 @@ void deleteWorld(World *w)
   glDeleteTextures(1, w->projectileTexture);
   glDeleteTextures(1, w->playerTexture);
   glDeleteTextures(1, w->levelTexture);
-  glDeleteTextures(1, w->endTexture);
+  glDeleteTextures(1, w->endLineTexture);
+  glDeleteTextures(1, w->endLineTexture);
+  glDeleteTextures(1, w->happyEndTexture);
+  glDeleteTextures(1, w->deathEndTexture);
 
   free(w);
 }
 
 void setPlayer(World *world){
-	Coord playerMin;
+	Coord playerMin, playerMax;
 	playerMin.x=WINDOW_WIDTH/8;
 	playerMin.y=WINDOW_HEIGHT/2-PIXEL_SIZE/2;
 	playerMax.x=playerMin.x+PIXEL_SIZE;
-	playerMax.y=playerMax.y+PIXEL_SIZE;
+	playerMax.y=playerMin.y+PIXEL_SIZE;
 	Object *player=initObject(playerMin, playerMax, 'j', world->playerTexture);
 	world->player=addObject(player, world->player);
 }

@@ -8,7 +8,7 @@
 
 #include "../include/display.h"
 #include "../include/data_struct.h"
-
+#define EXT ".jpg"
 
 void initWindow(){
 	/* Ouverture d'une fenêtre et création d'un contexte OpenGL */
@@ -23,11 +23,12 @@ void initWindow(){
 
 
 /* FINI */
-/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau | "l":fin du niveau */
-GLuint *loadTexture(char type){
+/* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau
+ * "l":fin du niveau | "h":happy end | "d":death end */
+GLuint *loadTexture(char *type){
 	SDL_Surface* textureData;
 	char fileName[50]="elements/";
-	strcat(fileName, &type);
+	strcat(fileName, type);
 	strcat(fileName, EXT);
 	
 	
@@ -39,7 +40,6 @@ GLuint *loadTexture(char type){
 	
 	/* chargement des données de la texture en RAM */
 	textureData=IMG_Load(fileName);
-
 	if(textureData==NULL){
 		fprintf(stderr, "Texture loading in memory failed\n");
 		exit(1);
@@ -71,12 +71,14 @@ GLuint *loadTexture(char type){
 
 /* FINI */
 void loadAllTextures(World *world){
-	world->obstacleTexture=loadTexture('o');
-	world->ennemyTexture=loadTexture('e');
-	world->projectileTexture=loadTexture('p');
-	world->playerTexture=loadTexture('j');
-	world->levelTexture=loadTexture('b');
-	world->endTexture=loadTexture('l');
+	world->obstacleTexture=loadTexture("o");
+	world->ennemyTexture=loadTexture("e");
+	world->projectileTexture=loadTexture("p");
+	world->playerTexture=loadTexture("j");
+	world->levelTexture=loadTexture("b");
+	world->endLineTexture=loadTexture("l");
+	world->happyEndTexture=loadTexture("h");
+	world->deathEndTexture=loadTexture("d");
 }
 
 /* FINI */
@@ -86,7 +88,7 @@ void displayAll(World *world){
 	glMatrixMode(GL_MODELVIEW); /* select the current matrix */
 	glLoadIdentity(); /* the current matrix becomes the identity matrix */
 	
-	displayBackground(*world);
+	displayBackground(world->levelTexture);
 	
 	glTranslatef(-(-1+2.*world->position/WINDOW_WIDTH), 0, 0);
 	world->position+=SPEED;
@@ -101,9 +103,9 @@ void displayAll(World *world){
 }
 
 /* FINI */
-void displayBackground(World world){
+void displayBackground(GLuint *textureID){
 	glEnable(GL_TEXTURE_2D); /* active la fonctionnalité de texturing */
-	glBindTexture(GL_TEXTURE_2D, *world.levelTexture); /* on bind la texture pour pouvoir l'utiliser */
+	glBindTexture(GL_TEXTURE_2D, *textureID); /* on bind la texture pour pouvoir l'utiliser */
 	glBegin(GL_POLYGON);
 		glTexCoord2f(0,0);
 		glVertex2f(-1, 1);
@@ -117,6 +119,7 @@ void displayBackground(World world){
 	glDisable(GL_TEXTURE_2D); /* désactive la fonctionnalité de texturing */
 	glBindTexture(GL_TEXTURE_2D, 0); /* débind la texture */
 }
+
 
 /* FINI */
 void displayObjects(Object *obj){
@@ -176,4 +179,4 @@ void initCamera(){
 	glMatrixMode(GL_MODELVIEW);
 	int centreX=-1+2.*0.5, centreY=-(-1+2.*0.5);
 	gluLookAt(centreX, centreY, 0.1, centreX, centreY, 0, 0, 1, 0);
-};
+}

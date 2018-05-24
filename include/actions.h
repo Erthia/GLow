@@ -20,5 +20,8 @@ int colide(Coord minObj1, Coord maxObj1, Coord minObj2, Coord maxObj2);
   retourne 0 sinon
 */
 void moveForwardPlayer(Object *player);
+/* return 1 if this is the end
+ * return 0 if isn't */
+int isHappyEnd(Object *player, Object *end);
 
 #endif

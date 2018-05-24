@@ -6,8 +6,8 @@
 #define SPEED 1 /* pixels per image INT */
 #define PIXEL_SIZE 50
 /* Dimensions de la fenêtre */
-static unsigned int WINDOW_WIDTH = 800;
-static unsigned int WINDOW_HEIGHT = 600;
+static unsigned int WINDOW_WIDTH = 1280;
+static unsigned int WINDOW_HEIGHT = 720;
 /* Nombre de bits par pixel de la fenêtre */
 static const unsigned int BIT_PER_PIXEL = 32;
 /* Nombre minimal de millisecondes separant le rendu de deux images */
@@ -43,7 +43,9 @@ typedef struct{
 	GLuint *projectileTexture;
 	GLuint *playerTexture;
 	GLuint *levelTexture;
-	GLuint *endTexture;
+	GLuint *endLineTexture;
+	GLuint *happyEndTexture;
+	GLuint *deathEndTexture;
 }World;
 
 #endif

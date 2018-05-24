@@ -20,10 +20,21 @@ World *initGame(){
 	
 	initWindow();
 	World *world=initWorld();
-	setPlayer(World *world);
+	setPlayer(world);
 	
 	/* TEST */
+	Coord endTestMin, endTestMax;
+	endTestMin.x=WINDOW_WIDTH; endTestMin.y=WINDOW_HEIGHT/2;
+	endTestMax.x=WINDOW_WIDTH+PIXEL_SIZE; endTestMax.y=WINDOW_HEIGHT/2+PIXEL_SIZE;
+	Object *endBlock1=initObject(endTestMin, endTestMax, 'o', world->endLineTexture);
+	world->end=addObject(endBlock1, world->end);
 	
+	
+	
+	endTestMin.y+=PIXEL_SIZE;
+	endTestMax.y+=PIXEL_SIZE;
+	Object *endBlock2=initObject(endTestMin, endTestMax, 'o', world->endLineTexture);
+	world->end=addObject(endBlock2, world->end);
 	/* END TEST */
 	
 	return world;
@@ -38,14 +49,15 @@ void gameLoop(World *world){
 		/* ACTIONS */
 		moveForwardPlayer(world->player);
 		
-		/* CONDITIONS */
-		isEnd();
-		
 		/* Boucle traitant les evenements */
 		loop=eventLoop(world);
 		
 		/* Placer ici le code de dessin */
-		displayAll(world);
+		if(isHappyEnd(world->player, world->end)==1){
+			happyEnd(world);
+			loop=0;
+		}
+		else displayAll(world);
 		
 		
 		SDL_GL_SwapBuffers();
@@ -55,6 +67,7 @@ void gameLoop(World *world){
 		if(elapsedTime < FRAMERATE_MILLISECONDS) {
 			SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
 		}
+		
 	}
 }
 
@@ -73,7 +86,6 @@ int eventLoop(World *world){
 		/* L'utilisateur ferme la fenêtre : */
 		if(e.type == SDL_QUIT) {
 			loop = 0;
-			break;
 		}
       
 		switch(e.type) {
@@ -108,4 +120,20 @@ int eventLoop(World *world){
 void exitGame(World *world){
 	deleteWorld(world);
 	SDL_Quit(); /* Liberation des ressources associées à la SDL */
+}
+
+void happyEnd(World *world){
+	int loop=1;
+	glMatrixMode(GL_MODELVIEW); /* select the current matrix */
+	glLoadIdentity(); /* the current matrix becomes the identity matrix */
+	displayBackground(world->happyEndTexture);
+	SDL_GL_SwapBuffers();
+	while(loop){
+		SDL_Event e;
+		while(SDL_PollEvent(&e)) {
+			/* L'utilisateur ferme la fenêtre : */
+			if(e.type == SDL_QUIT)
+				loop = 0;
+		}
+	}
 }

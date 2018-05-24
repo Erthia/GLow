@@ -97,11 +97,11 @@ void moveForwardPlayer(Object *player){
 	player->max.x+=SPEED;
 }
 
-/* return 1 if this is the end
+/* return 1 if this is the happy end
  * return 0 if isn't */
-int isEnd(World world){
-	if(world.end==NULL) return 0;
-	if(colide(world.player->min, world.player->max, world.end->min, world.end->max)==0)
-		return isEnd(world.end->next);
+int isHappyEnd(Object *player, Object *end){
+	if(end==NULL) return 0;
+	if(colide(player->min, player->max, end->min, end->max)==0)
+		return isHappyEnd(player, end->next);
 	return 1;
 }
