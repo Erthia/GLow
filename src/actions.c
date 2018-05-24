@@ -7,6 +7,7 @@
 
 #include "../include/actions.h"
 #include "../include/data_struct.h"
+#include "../include/data.h"
 
 /* dir : 'N':North - 'S':South - 'E':East - 'W':West
  * Return EXIT_FAILURE if obj is NULL, or dir invalid
@@ -97,11 +98,45 @@ void moveForwardPlayer(Object *player){
 	player->max.x+=SPEED;
 }
 
-/* return 1 if this is the happy end
- * return 0 if isn't */
-int isHappyEnd(Object *player, Object *end){
-	if(end==NULL) return 0;
-	if(colide(player->min, player->max, end->min, end->max)==0)
-		return isHappyEnd(player, end->next);
+/* retourne 1 si un des éléments de la liste entre en collision avec le.a joueur.se
+ * retourne 0 sinon */
+int colideList(Object *player, Object *list){
+	if(list==NULL) return 0;
+	if(colide(player->min, player->max, list->min, list->max)==0)
+		return colideList(player, list->next);
 	return 1;
+}
+
+/* retourne 1 si un des éléments de la liste entre en collision avec le.a joueur.se
+ * retourne 0 sinon */
+int colideProjList(Object *player, Projectile *list){
+	if(list==NULL) return 0;
+	if(colide(player->min, player->max, list->min, list->max)==0)
+		return colideProjList(player, list->next);
+	return 1;
+}
+
+/* retourne 1 si le.a joueur.se MEURT
+ * retourne 0 sinon */
+int isDeathEnd(World *world){
+	int res=0;
+	if(
+		colideList(world->player, world->obstacles)!=0 ||
+		colideProjList(world->player, world->projectiles)!=0 ||
+		colideList(world->player, world->ennemies)!=0
+	)
+		res=1;
+	return res;
+}
+
+void setPlayer(World *world){
+	int pixelSize=(int)WINDOW_HEIGHT/(world->ppm->height);
+	
+	Coord playerMin, playerMax;
+	playerMin.x=2*pixelSize;
+	playerMin.y=WINDOW_HEIGHT/2-pixelSize/2;
+	playerMax.x=playerMin.x+pixelSize;
+	playerMax.y=playerMin.y+pixelSize;
+	Object *player=initObject(playerMin, playerMax, 'j', world->playerTexture);
+	world->player=addObject(player, world->player);
 }
