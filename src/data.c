@@ -105,3 +105,37 @@ void deleteWorld(World *w)
   deleteObjects(w->end);
   free(w);
 }
+
+Picture *initPicture(int width, int height)
+{
+  Picture *p = malloc(sizeof(Picture));
+
+  p->height = height;
+  p->width = width;
+  p->pixels = malloc(w*h*sizeof(Pixel*));
+
+  return p;
+}
+
+Picture *openPicture(char *fileName)
+{
+  int width, height, maxColorValue;
+  char magicNumber[3];
+  int r, g, b;
+  FILE *fichier = fopen(fileName, "r");
+  
+  if (fichier == NULL)
+    return NULL;
+  fscanf(fichier, "%s %d %d %d %d", magicNumber, &width, &height, &maxColorValue);
+
+  Picture *p = initPicture(width, height);
+  for (int i = 0; i<((p->width)*(p->height)); i++)
+    {
+      fscanf(fichier, "%d %d %d", &r, &g, &b);
+      p->pixels[i].r = r;
+      p->pixels[i].g = g;
+      p->pixels[i].b = b;
+    }
+  fclose(fichier);
+  return p;
+}
