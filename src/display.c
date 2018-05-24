@@ -8,7 +8,6 @@
 
 #include "../include/display.h"
 #include "../include/data_struct.h"
-#define EXT ".jpg"
 
 void initWindow(){
 	/* Ouverture d'une fenêtre et création d'un contexte OpenGL */
