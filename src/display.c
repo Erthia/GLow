@@ -17,7 +17,7 @@ void initWindow(){
 	}
 	/* Titre de la fenêtre */
 	SDL_WM_SetCaption("GLow", NULL);
-
+	
 }
 
 
@@ -48,16 +48,17 @@ GLuint *loadTexture(char *type){
 	/* Utilisation d'un point de bind pour modifier les paramètres de la texture */
 	glBindTexture(GL_TEXTURE_2D, *textureID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* filtre de minification */
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	
 	/* Envoi des données à la carte graphique */
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
-		GL_RGB,
+		GL_BGRA,
 		textureData->w,
 		textureData->h,
 		0,
-		GL_RGB,
+		GL_BGRA,
 		GL_UNSIGNED_BYTE,
 		textureData->pixels
 	);
@@ -104,6 +105,7 @@ void displayAll(World *world){
 /* FINI */
 void displayBackground(GLuint *textureID){
 	glEnable(GL_TEXTURE_2D); /* active la fonctionnalité de texturing */
+	
 	glBindTexture(GL_TEXTURE_2D, *textureID); /* on bind la texture pour pouvoir l'utiliser */
 	glBegin(GL_POLYGON);
 		glTexCoord2f(0,0);
