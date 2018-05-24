@@ -1,7 +1,7 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
-#include "../include/data_struct.h"
+#include "../include/data_struct"
 
 /*--------------- PROTOTYPES DES FONCTIONS ---------------*/
 

@@ -1,9 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "../include/data_struct.h"
-
-
+#include "../include/data_struct"
 
 /*--------------- PROTOTYPES DES FONCTIONS ---------------*/
 void initWindow();

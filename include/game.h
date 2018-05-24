@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "../include/data_struct.h"
+#include "../include/data_struct"
 
 /*--------------- PROTOTYPES DES FONCTIONS ---------------*/
 World *initGame();

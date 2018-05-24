@@ -71,8 +71,6 @@ int moveProjectile(Projectile *proj, char dir, int pixel_size){
 
 /*
   Fonction de test des collisions 
-  ======== A Tester !!! =========
-  
   retourne 1 si les objets entrent en collisions
   retourne 0 sinon
 */

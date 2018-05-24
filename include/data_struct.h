@@ -2,8 +2,8 @@
 #define DATA_STRUCT_H /* on défini la variable mentionnée ci-dessus */
 
 /* ---------------- GLOBAL VARIABLES ----------------*/
-#define EXT ".jpg"
-#define SPEED 1 /* pixels per image INT */
+#define EXT ".png"
+#define SPEED 3 /* pixels per image INT */
 /* Dimensions de la fenêtre */
 static unsigned int WINDOW_WIDTH = 1280;
 static unsigned int WINDOW_HEIGHT = 720;
@@ -11,6 +11,9 @@ static unsigned int WINDOW_HEIGHT = 720;
 static const unsigned int BIT_PER_PIXEL = 32;
 /* Nombre minimal de millisecondes separant le rendu de deux images */
 static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
+
+
+/* ---------------- STRUCTURES ----------------*/
 
 typedef struct{
   float x,y;
