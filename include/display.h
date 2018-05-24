@@ -3,13 +3,7 @@
 
 #include "../include/data_struct.h"
 
-/* Dimensions de la fenêtre */
-static unsigned int WINDOW_WIDTH = 800;
-static unsigned int WINDOW_HEIGHT = 600;
-/* Nombre de bits par pixel de la fenêtre */
-static const unsigned int BIT_PER_PIXEL = 32;
-/* Nombre minimal de millisecondes separant le rendu de deux images */
-static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
+
 
 /*--------------- PROTOTYPES DES FONCTIONS ---------------*/
 void initWindow();

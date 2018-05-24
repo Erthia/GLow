@@ -6,6 +6,7 @@
 
 #include "../include/data_struct.h"
 #include "../include/display.h"
+#include "../include/data.h"
 
 Object *initObject(Coord min, Coord max, char type, GLuint *textureID)
 {
@@ -40,10 +41,11 @@ Object *addObject(Object *o, Object *liste)
 
 void deleteObjects(Object *liste)
 {
-  Object *next = liste->next;
-  free(liste);
-  if(next != NULL)
-    deleteObjects(next);
+	if(liste != NULL){
+		Object *next = liste->next;
+		free(liste);
+		deleteObjects(next);
+	}
 }
 
 Projectile *initProjectile(Coord min, Coord max, char dir)
@@ -70,10 +72,11 @@ Projectile *addProjectile(Projectile *p, Projectile *liste)
 
 void deleteProjectiles(Projectile *liste)
 {
-  Projectile *next = liste->next;
-  free(liste);
-  if(next != NULL)
-    deleteProjectiles(next);
+	if(liste!=NULL){
+		Projectile *next = liste->next;
+		free(liste);
+		deleteProjectiles(next);
+	}
 }
 
 World *initWorld(GLuint *obstacleTexture, GLuint *ennemyTexture, GLuint *projectileTexture, GLuint *playerTexture, GLuint *levelTexture, GLuint *endTexture)
@@ -103,6 +106,13 @@ void deleteWorld(World *w)
   deleteObjects(w->ennemies);
   deleteObjects(w->obstacles);
   deleteObjects(w->end);
+  glDeleteTextures(1, w->obstacleTexture);
+  glDeleteTextures(1, w->ennemyTexture);
+  glDeleteTextures(1, w->projectileTexture);
+  glDeleteTextures(1, w->playerTexture);
+  glDeleteTextures(1, w->levelTexture);
+  glDeleteTextures(1, w->endTexture);
+
   free(w);
 }
 

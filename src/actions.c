@@ -8,8 +8,6 @@
 #include "../include/actions.h"
 #include "../include/data_struct.h"
 
-#define PIXEL_SIZE 100
-
 /* dir : 'N':North - 'S':South - 'E':East - 'W':West
  * Return EXIT_FAILURE if obj is NULL, or dir invalid
  * Do not manage the possible exit of the level map */
@@ -92,4 +90,9 @@ int colide(Coord minObj1, Coord maxObj1, Coord minObj2, Coord maxObj2)
   if (maxLeft < minRight && maxBottom < minTop)
     return 1;
   return 0;
+}
+
+void moveForwardPlayer(Object *player){
+	player->min.x+=SPEED;
+	player->max.x+=SPEED;
 }
