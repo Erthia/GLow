@@ -97,6 +97,7 @@ void moveForwardPlayer(Object *player){
 	player->max.x+=SPEED;
 }
 
+/* FINI */
 /* return 1 if this is the happy end
  * return 0 if isn't */
 int isHappyEnd(Object *player, Object *end){
@@ -104,4 +105,23 @@ int isHappyEnd(Object *player, Object *end){
 	if(colide(player->min, player->max, end->min, end->max)==0)
 		return isHappyEnd(player, end->next);
 	return 1;
+}
+
+/* return 1 if this is the happy end
+ * return 0 if isn't */
+int isHappyEnd(Object *player, Object *end){
+	if(end==NULL) return 0;
+	if(colide(player->min, player->max, end->min, end->max)==0)
+		return isHappyEnd(player, end->next);
+	return 1;
+}
+
+int isDeathEnd(World *world){
+	colideObstacles
+	colideEnnemies
+	colideProjectiles
+}
+
+int colideObstacles(World *world){
+	
 }
