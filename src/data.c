@@ -122,7 +122,7 @@ Picture *initPicture(int width, int height)
 
   p->height = height;
   p->width = width;
-  p->pixels = malloc(w*h*sizeof(Pixel*));
+  p->pixels = malloc(width*height*sizeof(Pixel*));
 
   return p;
 }
@@ -136,7 +136,7 @@ Picture *openPicture(char *fileName)
   
   if (fichier == NULL)
     return NULL;
-  fscanf(fichier, "%s %d %d %d %d", magicNumber, &width, &height, &maxColorValue);
+  fscanf(fichier, "%s %d %d %d", magicNumber, &width, &height, &maxColorValue);
 
   Picture *p = initPicture(width, height);
   for (int i = 0; i<((p->width)*(p->height)); i++)
