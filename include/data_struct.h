@@ -2,7 +2,7 @@
 #define DATA_STRUCT_H /* on défini la variable mentionnée ci-dessus */
 
 /* ---------------- GLOBAL VARIABLES ----------------*/
-#define EXT ".png"
+#define EXT ".bmp"
 #define SPEED 3 /* pixels per image INT */
 
 /* Dimensions de la fenêtre */
