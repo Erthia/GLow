@@ -140,7 +140,6 @@ void happyEnd(World *world){
 
 void ppmToWorld(World *world, Picture *p)
 {
-  Object *o = NULL;
   int xtab;
   int ytab;
   Coord min;
@@ -158,7 +157,7 @@ void ppmToWorld(World *world, Picture *p)
 	  max.x = (1+xtab)*(WINDOW_HEIGHT/(p->height));
 	  max.y = (1+ytab)*(WINDOW_HEIGHT/(p->height));
 	  world->obstacles = addObject(
-				       initObjects(min, max, 'o', world->obstacleTexture),
+				       initObject(min, max, 'o', world->obstacleTexture),
 				       world->obstacles);
 	}
       else if (p->pixels[i].r == 0 && p->pixels[i].g == 255 && p->pixels[i].b == 0) //Pixel vert
@@ -170,7 +169,7 @@ void ppmToWorld(World *world, Picture *p)
           max.x	= (1+xtab)*(WINDOW_HEIGHT/(p->height));
           max.y	= (1+ytab)*(WINDOW_HEIGHT/(p->height));
           world->obstacles = addObject(
-                                       initObjects(min, max, 'e', world->obstacleTexture),
+                                       initObject(min, max, 'e', world->obstacleTexture),
                                        world->obstacles);
         }
       else //Pixel noir
@@ -182,7 +181,7 @@ void ppmToWorld(World *world, Picture *p)
           max.x	= (1+xtab)*(WINDOW_HEIGHT/(p->height));
           max.y	= (1+ytab)*(WINDOW_HEIGHT/(p->height));
           world->obstacles = addObject(
-                                       initObjects(min, max, 'l', world->obstacleTexture),
+                                       initObject(min, max, 'l', world->obstacleTexture),
                                        world->obstacles);
         }
     }
