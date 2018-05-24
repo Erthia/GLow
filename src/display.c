@@ -180,3 +180,22 @@ void initCamera(){
 	int centreX=-1+2.*0.5, centreY=-(-1+2.*0.5);
 	gluLookAt(centreX, centreY, 0.1, centreX, centreY, 0, 0, 1, 0);
 }
+
+/* end vaut 1 si happy end
+ * end vaut 0 si le.a joueur.se est MORT.E */
+void displayEnd(World *world, int end){
+	int loop=1;
+	glMatrixMode(GL_MODELVIEW); /* select the current matrix */
+	glLoadIdentity(); /* the current matrix becomes the identity matrix */
+	if(end==1) displayBackground(world->happyEndTexture);
+	else displayBackground(world->deathEndTexture);
+	SDL_GL_SwapBuffers();
+	while(loop){
+		SDL_Event e;
+		while(SDL_PollEvent(&e)) {
+			/* L'utilisateur ferme la fenêtre : */
+			if(e.type == SDL_QUIT)
+				loop = 0;
+		}
+	}
+}

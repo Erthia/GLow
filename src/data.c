@@ -118,17 +118,6 @@ void deleteWorld(World *w)
   free(w);
 }
 
-void setPlayer(World *world){
-	int pixelSize=(int)WINDOW_HEIGHT/(world->ppm->height);
-	
-	Coord playerMin, playerMax;
-	playerMin.x=WINDOW_WIDTH/8;
-	playerMin.y=WINDOW_HEIGHT/2-pixelSize/2;
-	playerMax.x=playerMin.x+pixelSize;
-	playerMax.y=playerMin.y+pixelSize;
-	Object *player=initObject(playerMin, playerMax, 'j', world->playerTexture);
-	world->player=addObject(player, world->player);
-}
 
 Picture *initPicture(int width, int height)
 {
@@ -168,4 +157,63 @@ Picture *openPicture(char *fileName)
     }
   fclose(fichier);
   return p;
+}
+
+void pictureToWorld(World *world, Picture *p)
+{
+  int xtab;
+  int ytab;
+  Coord min;
+  Coord max;
+  
+  for (int i = 0; i < ((p->width)*(p->height)); i++)
+    {
+      if (p->pixels[i].r == 255 && p->pixels[i].g == 255 && p->pixels[i].b == 255){} //optimisation car le blanc revient tout le temps et donc ne pas devoir tester toutes les autres valeurs si c'est du blanc
+      else if (p->pixels[i].r == 255 && p->pixels[i].g == 0 && p->pixels[i].b == 0) //Pixel rouge
+	{
+	  xtab = i%(p->width);
+	  ytab = i/(p->width);
+	  min.x = xtab*(WINDOW_HEIGHT/(p->height));
+	  min.y = ytab*(WINDOW_HEIGHT/(p->height));
+	  max.x = (1+xtab)*(WINDOW_HEIGHT/(p->height));
+	  max.y = (1+ytab)*(WINDOW_HEIGHT/(p->height));
+	  world->obstacles = addObject(
+				       initObject(min, max, 'o', world->obstacleTexture),
+				       world->obstacles);
+	}
+      else if (p->pixels[i].r == 0 && p->pixels[i].g == 255 && p->pixels[i].b == 0) //Pixel vert
+	{
+	  xtab = i%(p->width);
+          ytab = i/(p->width);
+          min.x = xtab*(WINDOW_HEIGHT/(p->height));
+          min.y	= ytab*(WINDOW_HEIGHT/(p->height));
+          max.x	= (1+xtab)*(WINDOW_HEIGHT/(p->height));
+          max.y	= (1+ytab)*(WINDOW_HEIGHT/(p->height));
+          world->ennemies = addObject(
+                                       initObject(min, max, 'e', world->ennemyTexture),
+                                       world->ennemies);
+        }
+      else //Pixel noir
+        {
+	  xtab = i%(p->width);
+          ytab = i/(p->width);
+          min.x = xtab*(WINDOW_HEIGHT/(p->height));
+          min.y	= ytab*(WINDOW_HEIGHT/(p->height));
+          max.x	= (1+xtab)*(WINDOW_HEIGHT/(p->height));
+          max.y	= (1+ytab)*(WINDOW_HEIGHT/(p->height));
+          world->end = addObject(
+                                       initObject(min, max, 'l', world->endLineTexture),
+                                       world->end);
+        }
+    }
+}
+
+void ppmToWorld(char *filename, World *world){
+	Picture *ppm=openPicture(filename);
+	if(ppm==NULL){
+		fprintf(stderr,"Opening of the ppm file failed");
+		exit(1);
+	}
+	pictureToWorld(world, ppm);
+	world->ppm=ppm;
 }

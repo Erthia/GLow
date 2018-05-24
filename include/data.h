@@ -9,9 +9,10 @@ Projectile *addProjectile(Projectile *p, Projectile *liste);
 void deleteProjectiles(Projectile *liste);
 World *initWorld();
 void deleteWorld(World *w);
-void setPlayer(World *world);
 Picture *openPicture(char *fileName);
 Picture *initPicture(int width, int height);
 Picture *openPicture(char *fileName);
+void pictureToWorld(World *world, Picture *p);
+void ppmToWorld(char *filename, World *world);
 
 #endif

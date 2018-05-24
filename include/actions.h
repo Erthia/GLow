@@ -14,14 +14,22 @@ int moveObject(Object *obj, char dir, int pixel_size);
  * Do not manage the possible exit of the level map */
 int moveProjectile(Projectile *proj, char dir, int pixel_size);
 int colide(Coord minObj1, Coord maxObj1, Coord minObj2, Coord maxObj2);
+/* retourne 1 si un des éléments de la liste entre en collision avec le.a joueur.se
+ * retourne 0 sinon */
+int colideList(Object *player, Object *list);
 /*
   Fonction de test des collisions
   retourne 1 si les objets entrent en collisions
   retourne 0 sinon
 */
+/* retourne 1 si un des éléments de la liste entre en collision avec le.a joueur.se
+ * retourne 0 sinon */
+int colideProjList(Object *player, Projectile *list);
 void moveForwardPlayer(Object *player);
-/* return 1 if this is the end
- * return 0 if isn't */
-int isHappyEnd(Object *player, Object *end);
+/* retourne 1 si le.a joueur.se MEURT
+ * retourne 0 sinon */
+int isDeathEnd(World *world);
+void setPlayer(World *world);
+
 
 #endif

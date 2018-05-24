@@ -18,5 +18,6 @@ void displayProjectiles(World world);
 void drawObjectBlock(Object *obj);
 void drawProjectile(Projectile *proj, GLuint texture);
 void initCamera(); /* inutilisée */
+void displayEnd(World *world, int end);
 
 #endif
