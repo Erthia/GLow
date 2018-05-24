@@ -217,3 +217,9 @@ void ppmToWorld(char *filename, World *world){
 	pictureToWorld(world, ppm);
 	world->ppm=ppm;
 }
+
+void ppmFree(Picture *p)
+{
+  free(p->pixels);
+  free(p);
+}
