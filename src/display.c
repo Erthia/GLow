@@ -19,7 +19,6 @@ void initWindow(){
 	SDL_WM_SetCaption("GLow", NULL);
 	
 }
-run
 
 /* FINI */
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau
