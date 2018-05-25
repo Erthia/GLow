@@ -41,6 +41,10 @@ void ennemyKilled(Projectile **proj, Object **ennemies);
 /* gère la rencontre d'un projectile donné avec les autre projectiles */
 /* proj supposé non NULL */
 void projKilledbyProj(Projectile **proj, Projectile **list);
+/* gère la sortie de terrain du projectile */
+void projOut(World *world, Projectile **proj);
+void deleteProj(Projectile **proj);
+void deleteEnnemi(Object **ennemies);
 
 
 #endif

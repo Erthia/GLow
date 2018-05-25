@@ -131,17 +131,36 @@ void fire(World *world, Object *obj, char dir){
 /* gère les rencontres avec les projectiles, et les suppressions d'éléments en découlant */
 void meetProjectiles(World *world, Projectile **projList){
 	if(*projList==NULL) return; /* dernier projectile traité */
-	projKilledbyObs(projList, world->obstacles); /* gère la rencontre avec les obstacles */
+	/* gère la rencontre avec les obstacles */
+	projKilledbyObs(projList, world->obstacles); 
 	
 	if(*projList==NULL) return; /* dernier projectile traité */
-	projKilledbyProj(projList, &(world->projectiles)); /* gère la rencontre avec les obstacles */
+	/* gère la rencontre avec les autres projectiles */
+	projKilledbyProj(projList, &(world->projectiles)); 
 	
 	if(*projList==NULL) return; /* dernier projectile traité */
+	/* gère la rencontre avec les ennemis */
 	ennemyKilled(projList, &(world->ennemies));
 	
 	
 	if(*projList==NULL) return; /* dernier projectile traité */
+	/* gère la sortie de terrain des projectiles */
+	projOut(world, projList);
+	
+	if(*projList==NULL) return; /* dernier projectile traité */
 	return meetProjectiles(world, &((*projList)->next));
+}
+
+/* gère la sortie de terrain du projectile */
+void projOut(World *world, Projectile **proj){
+	int pixelSize=WINDOW_HEIGHT/world->ppm->height;
+	if(
+		(*proj)->min.x<world->position-WINDOW_WIDTH/2 ||
+		(*proj)->max.x>world->position+WINDOW_WIDTH-WINDOW_WIDTH/2 ||
+		(*proj)->min.y<0 ||
+		(*proj)->min.y>WINDOW_WIDTH
+	)
+	deleteProj(proj);
 }
 
 /* gère la rencontre d'un projectile donné avec les obstacles */
@@ -149,13 +168,10 @@ void meetProjectiles(World *world, Projectile **projList){
 void projKilledbyObs(Projectile **proj, Object *obsList){
 	if(obsList==NULL) return;
 	if(colide((*proj)->min, (*proj)->max, obsList->min, obsList->max)==1){
-		Projectile *temp;
-		temp=(*proj)->next;
-		free(*proj);
-		(*proj)=temp;
+		deleteProj(proj);
 		return;
 	}
-	
+	if(obsList==NULL) return;
 	return projKilledbyObs(proj, obsList->next);	
 }
 
@@ -164,16 +180,8 @@ void projKilledbyObs(Projectile **proj, Object *obsList){
 void ennemyKilled(Projectile **proj, Object **ennemies){
 	if(*ennemies==NULL) return;
 	if(colide((*ennemies)->min, (*ennemies)->max, (*proj)->min, (*proj)->max)==1){
-		Object *temp;
-		temp=(*ennemies)->next;
-		free(*ennemies);
-		(*ennemies)=temp;
-		
-		Projectile *tempB;
-		tempB=(*proj)->next;
-		free(*proj);
-		(*proj)=tempB;
-		return;
+		deleteEnnemi(ennemies);
+		deleteProj(proj);
 	}
 	
 	return ennemyKilled(proj, &(*ennemies)->next);	
@@ -187,18 +195,33 @@ void projKilledbyProj(Projectile **proj, Projectile **list){
 		colide((*list)->min, (*list)->max, (*proj)->min, (*proj)->max)==1 &&
 		(*list)->min.x!=(*proj)->min.x
 	){
-		Object *temp;
-		temp=(*list)->next;
-		free(*list);
-		(*list)=temp;
-		
-		Projectile *tempB;
-		tempB=(*proj)->next;
-		free(*proj);
-		(*proj)=tempB;
+		deleteProj(list);
+		deleteProj(proj);
 		return;
 	}
 	
 	return projKilledbyProj(proj, &(*list)->next);	
 }
 
+void deleteProj(Projectile **proj){
+	Projectile *temp;
+	temp=(*proj)->next;
+	free(*proj);
+	(*proj)=temp;
+	
+	return;
+}
+
+void deleteEnnemi(Object **ennemies){
+	Object *temp;
+	temp=(*ennemies)->next;
+	free(*ennemies);
+	(*ennemies)=temp;
+	
+	return;
+}
+
+/* fait bouger et tirer les ennemis */
+void moveEnnemies(World *world){
+	
+}
