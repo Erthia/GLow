@@ -131,13 +131,13 @@ void fire(World *world, Object *obj, char dir){
 /* supprime les projectiles rencontrant un obstacle */
 void projKilledByWall(World *world, Projectile **projList){
 	if(*projList==NULL) return;
-	projKilledByAWall(projList, world->obstacles);
+	projKilled(projList, world->obstacles);
 	if(*projList==NULL) return;
 	return projKilledByWall(world, &((*projList)->next));
 }
 
 /* proj supposé non NULL */
-void projKilledByAWall(Projectile **proj, Object *obsList){
+void projKilled(Projectile **proj, Object *obsList){
 	if(obsList==NULL) return;
 	if(colide((*proj)->min, (*proj)->max, obsList->min, obsList->max)==1){
 		Projectile *temp;
@@ -146,5 +146,30 @@ void projKilledByAWall(Projectile **proj, Object *obsList){
 		(*proj)=temp;
 		return;
 	}
-	return projKilledByAWall(proj, obsList->next);	
+	return projKilled(proj, obsList->next);	
+}
+
+/* supprime les ennemis rencontrant un projectile */
+void ennemiesKilled(World *world, Object **eList){
+	if(*eList==NULL) return;
+	ennemyKilled(eList, &(world->projectiles));
+	if(*eList==NULL) return;
+	return ennemiesKilled(world, &((*eList)->next));
+}
+
+void ennemyKilled(Object **ennemy, Projectile **projList){
+	if(*projList==NULL) return;
+	if(colide((*ennemy)->min, (*ennemy)->max, (*projList)->min, (*projList)->max)==1){
+		Object *temp;
+		temp=(*ennemy)->next;
+		free(*ennemy);
+		(*ennemy)=temp;
+		
+		Projectile *tempB;
+		tempB=(*projList)->next;
+		free(*projList);
+		(*projList)=tempB;
+		return;
+	}
+	return ennemyKilled(ennemy, &((*projList)->next));	
 }

@@ -33,7 +33,9 @@ void fire(World *world, Object *obj, char dir);
 /* supprime les projectiles rencontrant un obstacle */
 void projKilledByWall(World *world, Projectile **projList);
 /* proj supposé non NULL */
-void projKilledByAWall(Projectile **proj, Object *obsList);
+void projKilled(Projectile **proj, Object *obsList);
+void ennemiesKilled(World *world, Object **eList);
+void ennemyKilled(Object **ennemy, Projectile **projList);
 
 
 #endif
