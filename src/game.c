@@ -41,15 +41,15 @@ void gameLoop(World *world){
 		/* Récupération du temps au début de la boucle */
 		Uint32 startTime = SDL_GetTicks();
 		
+		/* Boucle traitant les evenements */
+		loop=eventLoop(world);
+		
 		/* ACTIONS */
 		/* fait avancer le joueur */
 		moveObject(world->player, 'E', SPEED);
 		/* fait avancer tous les projectiles du jeu */
 		moveForwardProjectiles(world, world->projectiles);
 		moveEnnemies(world, world->ennemies);
-		
-		/* Boucle traitant les evenements */
-		loop=eventLoop(world);
 		
 		/* CONDITIONS + DESSINS */
 		meetProjectiles(world, &(world->projectiles)); /* gère les rencontres avec les projectiles */

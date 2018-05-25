@@ -11,7 +11,7 @@
 
 void initWindow(){
 	/* Ouverture d'une fenêtre et création d'un contexte OpenGL */
-	if(NULL == SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BIT_PER_PIXEL, SDL_OPENGL | SDL_GL_DOUBLEBUFFER)) {
+	if(NULL == SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BIT_PER_PIXEL, SDL_OPENGL)) {
 		fprintf(stderr, "Impossible d'ouvrir la fenetre. Fin du programme.\n");
 		exit(1);
 	}
@@ -19,7 +19,7 @@ void initWindow(){
 	SDL_WM_SetCaption("GLow", NULL);
 	
 }
-
+run
 
 /* FINI */
 /* type : "j":joueur | "e":ennemi | "p":projectile | "o":obstacle | "b":fond du niveau
