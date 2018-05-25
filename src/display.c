@@ -95,9 +95,9 @@ void displayAll(World *world){
 	world->position+=SPEED;
 
 	displayObjects(world->end);
+	displayProjectiles(*world);
 	displayObjects(world->player);
 	displayObjects(world->ennemies);
-	displayProjectiles(*world);
 	displayObjects(world->obstacles);
 		
 	

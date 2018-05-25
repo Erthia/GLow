@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL_image.h>
+#include <time.h>
 
 #include "../include/game.h"
 #include "../include/data_struct.h"
@@ -12,6 +13,8 @@
 #include "../include/data.h"
 
 World *initGame(){
+	srand(time(NULL)); /* initialisation de rand */
+	
 	/* Initialisation de la SDL */
 	if(-1 == SDL_Init(SDL_INIT_VIDEO)) {
 		fprintf(stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
@@ -39,8 +42,11 @@ void gameLoop(World *world){
 		Uint32 startTime = SDL_GetTicks();
 		
 		/* ACTIONS */
-		moveObject(world->player, 'E', SPEED); /* fait avancer le joueur */
-		moveForwardProjectiles(world, world->projectiles); /* fait avancer tous les projectiles du jeu */
+		/* fait avancer le joueur */
+		moveObject(world->player, 'E', SPEED);
+		/* fait avancer tous les projectiles du jeu */
+		moveForwardProjectiles(world, world->projectiles);
+		moveEnnemies(world, world->ennemies);
 		
 		/* Boucle traitant les evenements */
 		loop=eventLoop(world);
