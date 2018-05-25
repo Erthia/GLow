@@ -2,7 +2,7 @@
 #define DATA_STRUCT_H /* on défini la variable mentionnée ci-dessus */
 
 /* ---------------- GLOBAL VARIABLES ----------------*/
-#define EXT ".bmp"
+#define EXT ".jpg"
 #define SPEED 3 /* pixels per image INT */
 #define PROJ_SPEED 50 /* vitesse des projectiles */
 

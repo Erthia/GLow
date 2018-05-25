@@ -36,7 +36,8 @@ GLuint *loadTexture(char *type){
 		fprintf(stderr, "Malloc of textureID in fonction loadTexture failed\n");
 		exit(1);
 	}
-	
+	printf(fileName);
+	printf("\n");
 	/* chargement des données de la texture en RAM */
 	textureData=IMG_Load(fileName);
 	if(textureData==NULL){

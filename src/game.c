@@ -22,8 +22,8 @@ World *initGame(){
 	World *world=initWorld();
 	
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//	glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	ppmToWorld("elements/level1.ppm", world);
 
