@@ -143,7 +143,6 @@ void meetProjectiles(World *world, Projectile **projList){
 	/* gère la rencontre avec les ennemis */
 	ennemyKilled(projList, &(world->ennemies));
 	
-	
 	if(*projList==NULL) return; /* dernier projectile traité */
 	/* gère la sortie de terrain des projectiles */
 	projOut(world, projList);
@@ -179,7 +178,7 @@ void projKilledbyObs(Projectile **proj, Object *obsList){
 /* proj supposé non NULL */
 void ennemyKilled(Projectile **proj, Object **ennemies){
 	if(*ennemies==NULL) return;
-	if(colide((*ennemies)->min, (*ennemies)->max, (*proj)->min, (*proj)->max)==1){
+	if(colide((*ennemies)->min, (*ennemies)->max, (*proj)->min, (*proj)->max)==1 && (*proj)->dir!='W'){
 		deleteEnnemy(ennemies);
 		deleteProj(proj);
 		return;
