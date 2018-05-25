@@ -44,7 +44,9 @@ void projKilledbyProj(Projectile **proj, Projectile **list);
 /* gère la sortie de terrain du projectile */
 void projOut(World *world, Projectile **proj);
 void deleteProj(Projectile **proj);
-void deleteEnnemi(Object **ennemies);
+void deleteEnnemy(Object **ennemies);
+/* fait bouger et tirer les ennemis */
+void moveEnnemies(World *world, Object *ennemy);
 
 
 #endif

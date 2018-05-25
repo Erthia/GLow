@@ -120,7 +120,8 @@ void setPlayer(World *world){
 void fire(World *world, Object *obj, char dir){
 	int pixelSize=WINDOW_HEIGHT/world->ppm->height;
 	Coord coordProjMin, coordProjMax;
-	coordProjMin.x=obj->min.x+pixelSize;
+	if(dir=='E') coordProjMin.x=obj->min.x+pixelSize;
+	else coordProjMin.x=obj->min.x-pixelSize;
 	coordProjMin.y=obj->min.y;
 	coordProjMax.x=coordProjMin.x+pixelSize;
 	coordProjMax.y=coordProjMin.y+pixelSize;
@@ -142,7 +143,6 @@ void meetProjectiles(World *world, Projectile **projList){
 	/* gère la rencontre avec les ennemis */
 	ennemyKilled(projList, &(world->ennemies));
 	
-	
 	if(*projList==NULL) return; /* dernier projectile traité */
 	/* gère la sortie de terrain des projectiles */
 	projOut(world, projList);
@@ -153,7 +153,6 @@ void meetProjectiles(World *world, Projectile **projList){
 
 /* gère la sortie de terrain du projectile */
 void projOut(World *world, Projectile **proj){
-	int pixelSize=WINDOW_HEIGHT/world->ppm->height;
 	if(
 		(*proj)->min.x<world->position-WINDOW_WIDTH/2 ||
 		(*proj)->max.x>world->position+WINDOW_WIDTH-WINDOW_WIDTH/2 ||
@@ -179,13 +178,13 @@ void projKilledbyObs(Projectile **proj, Object *obsList){
 /* proj supposé non NULL */
 void ennemyKilled(Projectile **proj, Object **ennemies){
 	if(*ennemies==NULL) return;
-	if(colide((*ennemies)->min, (*ennemies)->max, (*proj)->min, (*proj)->max)==1){
-		deleteEnnemi(ennemies);
+	if(colide((*ennemies)->min, (*ennemies)->max, (*proj)->min, (*proj)->max)==1 && (*proj)->dir!='W'){
+		deleteEnnemy(ennemies);
 		deleteProj(proj);
 		return;
 	}
 	if(*ennemies==NULL) return;
-	ennemyKilled(proj, &((*ennemies)->next));	
+	ennemyKilled(proj, &((*ennemies)->next));
 }
 
 /* gère la rencontre d'un projectile donné avec les autre projectiles */
@@ -213,7 +212,7 @@ void deleteProj(Projectile **proj){
 	return;
 }
 
-void deleteEnnemi(Object **ennemies){
+void deleteEnnemy(Object **ennemies){
 	Object *temp;
 	temp=(*ennemies)->next;
 	free(*ennemies);
@@ -223,6 +222,37 @@ void deleteEnnemi(Object **ennemies){
 }
 
 /* fait bouger et tirer les ennemis */
-void moveEnnemies(World *world){
+void moveEnnemies(World *world, Object *ennemy){
+	if(ennemy==NULL) return;
 	
+	/* 5/1000 de proba par frame que l'ennemi change de direction */
+	int nb;
+	nb=rand()%1000;
+	if(nb<=1){
+		if(ennemy->type=='e') ennemy->type='a';
+		else ennemy->type='e';
+	}
+	
+	if(ennemy->type=='e'){
+		moveObject(ennemy, 'S', SPEED);
+		/* si l'ennemi va sortir de l'écran ou rencontrer un obstacle */
+		if(ennemy->max.y>WINDOW_HEIGHT || colideList(ennemy, world->obstacles)==1){
+			ennemy->type='a';
+			moveObject(ennemy, 'N', SPEED);
+		}
+	 }
+	else if(ennemy->type=='a'){
+		moveObject(ennemy, 'N', SPEED);
+		/* si l'ennemi va sortir de l'écran ou rencontrer un obstacle */
+		 if(ennemy->min.y<0 || colideList(ennemy, world->obstacles)==1){
+			ennemy->type='e';
+			moveObject(ennemy, 'S', SPEED);
+		}
+	}
+	/* environ 7/1000 de proba que l'ennemi tire pendant une frame */
+	nb=rand()%1000; 
+	if(nb<=7)
+		fire(world, ennemy, 'W');
+	
+	moveEnnemies(world, ennemy->next);
 }
