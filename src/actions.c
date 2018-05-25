@@ -128,16 +128,25 @@ void fire(World *world, Object *obj, char dir){
 	world->projectiles=addProjectile(proj, world->projectiles);
 }
 
-/* supprime les projectiles rencontrant un obstacle */
-void projKilledByWall(World *world, Projectile **projList){
-	if(*projList==NULL) return;
-	projKilled(projList, world->obstacles);
-	if(*projList==NULL) return;
-	return projKilledByWall(world, &((*projList)->next));
+/* gère les rencontres avec les projectiles, et les suppressions d'éléments en découlant */
+void meetProjectiles(World *world, Projectile **projList){
+	if(*projList==NULL) return; /* dernier projectile traité */
+	projKilledbyObs(projList, world->obstacles); /* gère la rencontre avec les obstacles */
+	
+	if(*projList==NULL) return; /* dernier projectile traité */
+	projKilledbyProj(projList, &(world->projectiles)); /* gère la rencontre avec les obstacles */
+	
+	if(*projList==NULL) return; /* dernier projectile traité */
+	ennemyKilled(projList, &(world->ennemies));
+	
+	
+	if(*projList==NULL) return; /* dernier projectile traité */
+	return meetProjectiles(world, &((*projList)->next));
 }
 
+/* gère la rencontre d'un projectile donné avec les obstacles */
 /* proj supposé non NULL */
-void projKilled(Projectile **proj, Object *obsList){
+void projKilledbyObs(Projectile **proj, Object *obsList){
 	if(obsList==NULL) return;
 	if(colide((*proj)->min, (*proj)->max, obsList->min, obsList->max)==1){
 		Projectile *temp;
@@ -146,30 +155,50 @@ void projKilled(Projectile **proj, Object *obsList){
 		(*proj)=temp;
 		return;
 	}
-	return projKilled(proj, obsList->next);	
+	
+	return projKilledbyObs(proj, obsList->next);	
 }
 
-/* supprime les ennemis rencontrant un projectile */
-void ennemiesKilled(World *world, Object **eList){
-	if(*eList==NULL) return;
-	ennemyKilled(eList, &(world->projectiles));
-	if(*eList==NULL) return;
-	return ennemiesKilled(world, &((*eList)->next));
-}
-
-void ennemyKilled(Object **ennemy, Projectile **projList){
-	if(*projList==NULL) return;
-	if(colide((*ennemy)->min, (*ennemy)->max, (*projList)->min, (*projList)->max)==1){
+/* gère la rencontre d'un projectile donné avec les ennemis */
+/* proj supposé non NULL */
+void ennemyKilled(Projectile **proj, Object **ennemies){
+	if(*ennemies==NULL) return;
+	if(colide((*ennemies)->min, (*ennemies)->max, (*proj)->min, (*proj)->max)==1){
 		Object *temp;
-		temp=(*ennemy)->next;
-		free(*ennemy);
-		(*ennemy)=temp;
+		temp=(*ennemies)->next;
+		free(*ennemies);
+		(*ennemies)=temp;
 		
 		Projectile *tempB;
-		tempB=(*projList)->next;
-		free(*projList);
-		(*projList)=tempB;
+		tempB=(*proj)->next;
+		free(*proj);
+		(*proj)=tempB;
 		return;
 	}
-	return ennemyKilled(ennemy, &((*projList)->next));	
+	
+	return ennemyKilled(proj, &(*ennemies)->next);	
 }
+
+/* gère la rencontre d'un projectile donné avec les autre projectiles */
+/* proj supposé non NULL */
+void projKilledbyProj(Projectile **proj, Projectile **list){
+	if(*list==NULL) return;
+	if(
+		colide((*list)->min, (*list)->max, (*proj)->min, (*proj)->max)==1 &&
+		(*list)->min.x!=(*proj)->min.x
+	){
+		Object *temp;
+		temp=(*list)->next;
+		free(*list);
+		(*list)=temp;
+		
+		Projectile *tempB;
+		tempB=(*proj)->next;
+		free(*proj);
+		(*proj)=tempB;
+		return;
+	}
+	
+	return projKilledbyProj(proj, &(*list)->next);	
+}
+

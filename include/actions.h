@@ -30,12 +30,17 @@ void moveForwardProjectiles(World *world, Projectile *list);
 int isDeathEnd(World *world);
 void setPlayer(World *world);
 void fire(World *world, Object *obj, char dir);
-/* supprime les projectiles rencontrant un obstacle */
-void projKilledByWall(World *world, Projectile **projList);
+/* gère les rencontres avec les projectiles, et les suppressions d'éléments en découlant */
+void meetProjectiles(World *world, Projectile **projList);
+/* gère la rencontre d'un projectile donné avec les obstacles */
 /* proj supposé non NULL */
-void projKilled(Projectile **proj, Object *obsList);
-void ennemiesKilled(World *world, Object **eList);
-void ennemyKilled(Object **ennemy, Projectile **projList);
+void projKilledbyObs(Projectile **proj, Object *obsList);
+/* gère la rencontre d'un projectile donné avec les ennemis */
+/* proj supposé non NULL */
+void ennemyKilled(Projectile **proj, Object **ennemies);
+/* gère la rencontre d'un projectile donné avec les autre projectiles */
+/* proj supposé non NULL */
+void projKilledbyProj(Projectile **proj, Projectile **list);
 
 
 #endif
