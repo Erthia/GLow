@@ -54,11 +54,11 @@ GLuint *loadTexture(char *type){
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
-		GL_RGBA,
+		GL_RGB,
 		textureData->w,
 		textureData->h,
 		0,
-		GL_RGBA,
+		GL_RGB,
 		GL_UNSIGNED_BYTE,
 		textureData->pixels
 	);

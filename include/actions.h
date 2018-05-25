@@ -12,7 +12,6 @@ int moveObject(Object *obj, char dir, int pixel_size);
 /* dir : 'N':North - 'S':South - 'E':East - 'W':West
  * Return EXIT_FAILURE if proj is NULL, or dir invalid
  * Do not manage the possible exit of the level map */
-int moveProjectile(Projectile *proj, char dir, int pixel_size);
 int colide(Coord minObj1, Coord maxObj1, Coord minObj2, Coord maxObj2);
 /* retourne 1 si un des éléments de la liste entre en collision avec le.a joueur.se
  * retourne 0 sinon */
@@ -25,11 +24,27 @@ int colideList(Object *player, Object *list);
 /* retourne 1 si un des éléments de la liste entre en collision avec le.a joueur.se
  * retourne 0 sinon */
 int colideProjList(Object *player, Projectile *list);
-void moveForwardPlayer(Object *player);
+void moveForwardProjectiles(World *world, Projectile *list);
 /* retourne 1 si le.a joueur.se MEURT
  * retourne 0 sinon */
 int isDeathEnd(World *world);
 void setPlayer(World *world);
+void fire(World *world, Object *obj, char dir);
+/* gère les rencontres avec les projectiles, et les suppressions d'éléments en découlant */
+void meetProjectiles(World *world, Projectile **projList);
+/* gère la rencontre d'un projectile donné avec les obstacles */
+/* proj supposé non NULL */
+void projKilledbyObs(Projectile **proj, Object *obsList);
+/* gère la rencontre d'un projectile donné avec les ennemis */
+/* proj supposé non NULL */
+void ennemyKilled(Projectile **proj, Object **ennemies);
+/* gère la rencontre d'un projectile donné avec les autre projectiles */
+/* proj supposé non NULL */
+void projKilledbyProj(Projectile **proj, Projectile **list);
+/* gère la sortie de terrain du projectile */
+void projOut(World *world, Projectile **proj);
+void deleteProj(Projectile **proj);
+void deleteEnnemi(Object **ennemies);
 
 
 #endif

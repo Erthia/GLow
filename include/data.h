@@ -16,5 +16,6 @@ Picture *initPicture(int width, int height);
 Picture *openPicture(char *fileName);
 void pictureToWorld(World *world, Picture *p);
 void ppmToWorld(char *filename, World *world);
+void ppmFree(Picture *p);
 
 #endif
