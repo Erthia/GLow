@@ -182,9 +182,10 @@ void ennemyKilled(Projectile **proj, Object **ennemies){
 	if(colide((*ennemies)->min, (*ennemies)->max, (*proj)->min, (*proj)->max)==1){
 		deleteEnnemi(ennemies);
 		deleteProj(proj);
+		return;
 	}
-	
-	return ennemyKilled(proj, &(*ennemies)->next);	
+	if(*ennemies==NULL) return;
+	ennemyKilled(proj, &((*ennemies)->next));	
 }
 
 /* gère la rencontre d'un projectile donné avec les autre projectiles */
